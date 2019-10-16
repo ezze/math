@@ -1,0 +1,17 @@
+[{
+  "id": "lada",
+  "name": "Автомобили LADA",
+  "items": [{
+    "id": "4x4-urban-3d",
+    "name": "LADA 4x4 Urban",
+    "url": "challenges/lada/4x4-urban-3d.jpg"
+  }, {
+    "id": "vesta-sw-cross",
+    "name": "LADA Vesta SW Cross",
+    "url": "challenges/lada/vesta-sw-cross.jpg"
+  }, {
+    "id": "xray-cross",
+    "name": "LADA X-Ray Cross",
+    "url": "challenges/lada/xray-cross.jpg"
+  }]
+}]

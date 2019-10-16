@@ -1,0 +1,38 @@
+@import "../../../sass/variables"
+
+
+$hall-of-fame-table-width: 300px !default
+$hall-of-fame-table-gap: 15px !default
+$hall-of-fame-table-cell-padding-horizontal: 15px !default
+$hall-of-fame-table-cell-padding-vertical: 5px !default
+$hall-of-fame-table-odd-background-color: #fffce9 !default
+$hall-of-fame-table-even-background-color: #fff8d3 !default
+$hall-of-fame-table-border-color: $primary !default
+
+
+.hall-of-fame-table
+  width: $hall-of-fame-table-width
+  margin: $hall-of-fame-table-gap auto 0
+  border-collapse: collapse
+
+  tr
+    > td
+      padding: $hall-of-fame-table-cell-padding-vertical $hall-of-fame-table-cell-padding-horizontal
+      border: 2px solid $hall-of-fame-table-border-color
+
+    &:nth-child(odd)
+      > td
+        background-color: $hall-of-fame-table-odd-background-color
+
+    &:nth-child(even)
+      > td
+        background-color: $hall-of-fame-table-even-background-color
+
+
+.hall-of-fame-table-place,
+.hall-of-fame-table-score
+  text-align: right !important
+
+
+.hall-of-fame-table-name
+  width: 100%

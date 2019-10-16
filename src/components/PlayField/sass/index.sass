@@ -1,0 +1,68 @@
+@import "../../../sass/variables"
+@import "~bulma/sass/utilities/initial-variables"
+
+
+$play-field-question-top: 60px !default
+$play-field-question-font-size: 120px !default
+$play-field-question-font-gap: $play-field-question-font-size * 0.15 !default
+$play-field-question-operand-color: #f39847
+$play-field-question-operator-color: #2ba3d5
+$play-field-question-correct-color: #2cbf37
+$play-field-question-wrong-color: #d52020
+
+
+.play-field
+  font-family: $family-monospace
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  overflow: hidden
+
+
+.play-field-question
+  position: relative
+  top: $play-field-question-top
+  font-size: $play-field-question-font-size
+  text-align: center
+
+  > div
+    display: inline
+
+  div ~ div
+    margin-left: $play-field-question-font-gap
+
+
+.play-field-question-operand
+  color: $play-field-question-operand-color
+
+
+.play-field-question-operator,
+.play-field-question-equal
+  color: $play-field-question-operator-color
+
+
+.play-field-question-answer
+  white-space: pre
+
+  &.play-field-question-answer-correct
+    span:nth-child(1)
+      color: $play-field-question-correct-color
+
+  &.play-field-question-answer-wrong
+    span:nth-child(1)
+      position: relative
+      color: $play-field-question-wrong-color
+
+      &:before
+        content: ''
+        position: absolute
+        top: 0
+        bottom: 0
+        left: 0
+        right: 0
+        background: linear-gradient(to top left, transparent calc(50% - 2px), $play-field-question-correct-color, transparent calc(50% + 2px))
+
+    span:nth-child(2)
+      color: $play-field-question-correct-color

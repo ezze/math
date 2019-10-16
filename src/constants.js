@@ -1,0 +1,29 @@
+// Sounds
+export const SOUND_TYPE_SUCCESS = 'SOUND_TYPE_SUCCESS';
+export const SOUND_TYPE_ERROR = 'SOUND_TYPE_ERROR';
+export const SOUND_TYPE_GAME_OVER = 'SOUND_TYPE_GAME_OVER';
+
+export const soundTypes = [
+  SOUND_TYPE_SUCCESS,
+  SOUND_TYPE_ERROR,
+  SOUND_TYPE_GAME_OVER
+];
+
+// Modal
+export const MODAL_USER_NAME = 'MODAL_USER_NAME';
+export const MODAL_SETTINGS = 'MODAL_SETTINGS';
+export const MODAL_HALL_OF_FAME = 'MODAL_HALL_OF_FAME';
+export const MODAL_AUDIO_NOTIFICATION = 'MODAL_AUDIO_NOTIFICATION';
+export const MODAL_ABOUT = 'MODAL_ABOUT';
+export const modalErrors = [];
+
+// Challenge
+export const OPERATION_ADD = '+';
+export const OPERATION_SUBTRACT = '-';
+export const operations = [
+  OPERATION_ADD,
+  OPERATION_SUBTRACT
+];
+
+export const challengeRecordsCount = 10;
+export const challengeDurations = [3, 5, 7, 10, 15];

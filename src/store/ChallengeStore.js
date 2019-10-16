@@ -1,0 +1,329 @@
+import { observable, computed, action, reaction } from 'mobx';
+import { createTransformer } from 'mobx-utils';
+import moment from 'moment';
+
+import BaseStore from './BaseStore';
+
+import { delay, random } from '../helpers';
+import { playSound } from '../sound';
+
+import {
+  challengeDurations,
+  OPERATION_ADD,
+  OPERATION_SUBTRACT,
+  SOUND_TYPE_SUCCESS,
+  SOUND_TYPE_ERROR,
+  SOUND_TYPE_GAME_OVER
+} from '../constants';
+
+import challenges from '../challenges.json';
+
+class ChallengeStore extends BaseStore {
+  @observable id = challenges[0].id;
+  @observable userName = '';
+  @observable duration = challengeDurations[1];
+  @observable maxOperand = 10;
+  @observable maxValue = 10;
+  @observable playMode = false;
+  @observable gameOver = false;
+  @observable itemId = null;
+  @observable usedItemIds = [];
+  @observable operand1 = null;
+  @observable operand2 = null;
+  @observable operator = null;
+  @observable userAnswer = null;
+  @observable innerCount = 0;
+  @observable correctCount = 0;
+
+  @observable startTime = null;
+  @observable elapsedTime = 0;
+  elapsedInterval = null;
+  nextTimeout = null;
+
+  @observable loading = false;
+  @observable loadingError = false;
+
+  @computed get remainingTimeDisplay() {
+    return moment.utc(Math.max((this.duration * 60 - this.elapsedTime) * 1000, 0)).format('mm:ss');
+  }
+
+  @computed get challenge() {
+    return challenges
+      .filter(challenge => challenge.enabled !== false)
+      .find(challenge => challenge.id === this.id) || null;
+  }
+
+  @computed get name() {
+    return this.challenge ? this.challenge.name : '';
+  }
+
+  @computed get items() {
+    return this.challenge ? this.challenge.items : [];
+  }
+
+  @computed get itemIds() {
+    return this.items.map(item => item.id);
+  }
+
+  @computed get item() {
+    return createTransformer(id => {
+      return this.items.find(item => item.id === id) || null;
+    });
+  }
+
+  @computed get correctAnswer() {
+    switch (this.operator) {
+      case OPERATION_ADD: {
+        return this.operand1 + this.operand2;
+      }
+
+      case OPERATION_SUBTRACT: {
+        return this.operand1 - this.operand2;
+      }
+
+      default: {
+        return null;
+      }
+    }
+  }
+
+  @computed get userCorrect() {
+    return this.correctAnswer === this.userAnswer;
+  }
+
+  @computed get overallCount() {
+    return Math.max(this.innerCount - (typeof this.userAnswer === 'number' ? 0 : 1), 0);
+  }
+
+  @computed get score() {
+    return 2 * this.correctCount - this.overallCount;
+  }
+
+  @action setChallenge(id) {
+    this.id = id;
+  }
+
+  @action setUserName(userName) {
+    this.userName = userName;
+  }
+
+  @action setDuration(duration) {
+    this.duration = duration;
+  }
+
+  @action setPlayMode(playMode) {
+    this.playMode = playMode;
+  }
+
+  @action setUserAnswer(userAnswer) {
+    this.userAnswer = userAnswer;
+  }
+
+  constructor(options = {}) {
+    super({
+      key: 'challenge',
+      exclude: [
+        'playMode',
+        'gameOver',
+        'itemId',
+        'usedItemIds',
+        'operand1',
+        'operand2',
+        'operator',
+        'userAnswer',
+        'innerCount',
+        'correctCount',
+        'startTime',
+        'elapsedTime',
+        'loading',
+        'loadingError'
+      ],
+      ...options
+    });
+
+    const { generalStore, recordStore } = options;
+    this.generalStore = generalStore;
+    this.recordStore = recordStore;
+
+    this.disposeId = reaction(() => this.id, () => {
+      const { playMode } = this;
+      this.stop();
+      this.loadItems().then(() => {
+        if (playMode) {
+          return this.start();
+        }
+      }).catch(e => console.error(e));
+    });
+
+    this.disposePlayMode = reaction(() => this.playMode, playMode => {
+      if (playMode) {
+        this.start().catch(e => console.error(e));
+      }
+      else {
+        this.stop();
+      }
+    });
+
+    this.disposeDuration = reaction(() => this.duration, () => {
+      if (this.playMode) {
+        this.start().catch(e => console.error(e));
+      }
+    });
+
+    this.disposeUserAnswer = reaction(() => this.userAnswer, userAnswer => {
+      if (!this.playMode || typeof userAnswer !== 'number') {
+        return;
+      }
+      this.check();
+    });
+
+    this.disposeGameOver = reaction(() => this.gameOver, gameOver => {
+      if (gameOver) {
+        if (this.generalStore.soundEnabled) {
+          playSound(SOUND_TYPE_GAME_OVER).catch(e => console.error(e));
+        }
+        const { score } = this;
+        if (score > 0) {
+          this.recordStore.add(this.duration, this.userName, score);
+        }
+      }
+
+      if (this.playMode && !gameOver) {
+        this.playMode = false;
+      }
+    });
+
+    this.loadItems().catch(e => console.error(e));
+  }
+
+  async destroy() {
+    this.disposeId();
+    this.disposePlayMode();
+    this.disposeDuration();
+    this.disposeUserAnswer();
+    this.disposeGameOver();
+    super.destroy();
+  }
+
+  reset() {
+    this.gameOver = false;
+    this.itemId = null;
+    this.usedItemIds = [];
+    this.operand1 = null;
+    this.operand2 = null;
+    this.operator = null;
+    this.userAnswer = null;
+    this.innerCount = 0;
+    this.correctCount = 0;
+
+    this.startTime = null;
+    this.elapsedTime = 0;
+    if (this.elapsedInterval) {
+      clearInterval(this.elapsedInterval);
+      this.elapsedInterval = null;
+    }
+  }
+
+  async loadItems() {
+    while (this.loading) {
+      await delay();
+    }
+
+    try {
+      this.loading = true;
+      await Promise.all(this.items.map(item => {
+        const { url } = item;
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          image.onload = resolve;
+          image.onerror = reject;
+          image.src = url;
+        });
+      }));
+      await delay();
+      this.loadingError = false;
+    }
+    catch (e) {
+      this.loadingError = true;
+    }
+    finally {
+      this.loading = false;
+    }
+  }
+
+  async start() {
+    while (this.loading) {
+      await delay();
+    }
+
+    if (!this.challenge) {
+      this.playMode = false;
+      return;
+    }
+
+    this.reset();
+    this.startTime = moment().unix();
+    this.elapsedInterval = setInterval(() => {
+      this.elapsedTime = moment().unix() - this.startTime;
+      if (this.elapsedTime > this.duration * 60) {
+        clearInterval(this.elapsedInterval);
+        this.gameOver = true;
+      }
+    }, 100);
+
+    this.next();
+  }
+
+  stop() {
+    this.reset();
+  }
+
+  next() {
+    this.userAnswer = null;
+
+    if (this.nextTimeout) {
+      clearTimeout(this.nextTimeout);
+      this.nextTimeout = null;
+    }
+
+    if (typeof this.itemId !== 'number') {
+      let id;
+      do {
+        const index = random(0, this.items.length - 1);
+        id = this.itemIds[index];
+      }
+      while (this.usedItemIds.includes(id));
+      this.itemId = id;
+    }
+
+    this.operator = OPERATION_ADD;
+
+    switch (this.operator) {
+      case OPERATION_ADD: {
+        this.operand1 = random(0, this.maxOperand);
+        this.operand2 = random(0, this.maxValue - this.operand1);
+        break;
+      }
+
+      case OPERATION_SUBTRACT: {
+        throw new Error('Not implemented');
+      }
+    }
+
+    this.innerCount++;
+  }
+
+  check() {
+    if (this.generalStore.soundEnabled) {
+      playSound(this.userCorrect ? SOUND_TYPE_SUCCESS : SOUND_TYPE_ERROR).catch(e => console.error(e));
+    }
+
+    if (this.userCorrect) {
+      this.correctCount++;
+    }
+
+    this.nextTimeout = setTimeout(() => this.next(), 1500);
+  }
+}
+
+export default ChallengeStore;

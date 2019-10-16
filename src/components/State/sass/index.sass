@@ -1,0 +1,33 @@
+@import "../../../sass/variables"
+
+
+$state-width: 180px !default
+$state-padding-horizontal: 15px !default
+$state-padding-vertical: 2px !default
+$state-border-radius: 4px !default
+$state-gap: 15px !default
+$state-color: $white !default
+$state-score-color: yellow !default
+$state-background-color: $black !default
+$state-opacity: 0.7 !default
+
+
+.state
+  position: absolute
+  display: flex
+  justify-content: space-between
+  width: $state-width
+  left: 50%
+  margin-left: - $state-width / 2
+  bottom: $state-gap
+  padding: $state-padding-vertical $state-padding-horizontal
+  border-radius: $state-border-radius
+  color: $state-color
+  background-color: $state-background-color
+  opacity: $state-opacity
+  text-align: center
+
+
+.state-score
+  font-weight: bold
+  color: $state-score-color
