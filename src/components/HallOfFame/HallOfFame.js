@@ -21,12 +21,12 @@ class HallOfFame extends Component {
 
   getRecords() {
     const { challengeStore, recordStore } = this.props;
-    const { duration } = challengeStore;
+    const { maxValue, duration } = challengeStore;
     const { records } = recordStore;
-    if (!records[`duration-${duration}`]) {
+    if (!records[`${maxValue}`] || !records[`${maxValue}`][`${duration}`]) {
       return [];
     }
-    return records[`duration-${duration}`];
+    return records[`${maxValue}`][`${duration}`];
   }
 
   render() {
@@ -52,6 +52,7 @@ class HallOfFame extends Component {
     return (
       <ModalNotification title="Таблица рекордов" visible={modal === MODAL_HALL_OF_FAME} close={this.close}>
         <div className="notification is-warning">
+          <p>Максимальное значение: {maxValue}</p>
           <p>Продолжительность (в минутах): {duration}</p>
         </div>
         {table}

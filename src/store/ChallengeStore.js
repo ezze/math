@@ -258,7 +258,7 @@ class ChallengeStore extends BaseStore {
         }
         const { score } = this;
         if (score > 0) {
-          this.recordStore.add(this.duration, this.userName, score);
+          this.recordStore.add(this.maxValue, this.duration, this.userName, score);
         }
       }
 

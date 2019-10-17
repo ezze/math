@@ -11,11 +11,14 @@ class RecordStore extends BaseStore {
     super({ key: 'record', ...options });
   }
 
-  add(duration, name, score) {
-    if (!this.records[`duration-${duration}`]) {
-      this.records[`duration-${duration}`] = [];
+  add(maxValue, duration, name, score) {
+    if (!this.records[`${maxValue}`]) {
+      this.records[`${maxValue}`] = {};
     }
-    const records = this.records[`duration-${duration}`];
+    if (!this.records[`${maxValue}`][`${duration}`]) {
+      this.records[`${maxValue}`][`${duration}`] = [];
+    }
+    const records = this.records[`${maxValue}`][`${duration}`];
     const index = records.findIndex(record => record.score < score);
     if (index === -1) {
       if (records.length < challengeRecordsCount) {
