@@ -11,8 +11,11 @@ import {
   challengeDurations,
   challengeFieldParams,
   challengeMaxValues,
-  OPERATION_ADD,
-  OPERATION_SUBTRACT,
+  challengeOperators,
+  challengeOperatorsIds,
+  operators,
+  OPERATOR_ADD,
+  OPERATOR_SUBTRACT,
   SOUND_TYPE_SUCCESS,
   SOUND_TYPE_ERROR,
   SOUND_TYPE_GAME_OVER
@@ -26,6 +29,7 @@ class ChallengeStore extends BaseStore {
   @observable duration = challengeDurations[1];
   @observable maxOperand = challengeMaxValues[0];
   @observable maxValue = challengeMaxValues[0];
+  @observable operatorsId = 'all';
   @observable playMode = false;
   @observable gameOver = false;
   @observable itemId = null;
@@ -113,17 +117,21 @@ class ChallengeStore extends BaseStore {
     return maxOperands;
   }
 
+  @computed get operators() {
+    return challengeOperators[this.operatorsId] || operators;
+  }
+
   @computed get maxConsecutiveRepeatsCount() {
     return this.maxValue <= 10 ? 2 : 1;
   }
 
   @computed get correctAnswer() {
     switch (this.operator) {
-      case OPERATION_ADD: {
+      case OPERATOR_ADD: {
         return this.operand1 + this.operand2;
       }
 
-      case OPERATION_SUBTRACT: {
+      case OPERATOR_SUBTRACT: {
         return this.operand1 - this.operand2;
       }
 
@@ -169,6 +177,13 @@ class ChallengeStore extends BaseStore {
       return;
     }
     this.maxOperand = maxOperand;
+  }
+
+  @action setOperators(operatorsId) {
+    if (!challengeOperatorsIds.includes(operatorsId)) {
+      return;
+    }
+    this.operatorsId = operatorsId;
   }
 
   @action setPlayMode(playMode) {
@@ -242,7 +257,10 @@ class ChallengeStore extends BaseStore {
       }
     });
 
-    this.disposeMaxOperand = reaction(() => this.maxOperand, () => {
+    this.disposeMaxOperandAndOperators = reaction(() => ({
+      maxOperand: this.maxOperand,
+      operators: this.operators
+    }), () => {
       if (this.playMode) {
         this.start().catch(e => console.error(e));
       }
@@ -279,7 +297,7 @@ class ChallengeStore extends BaseStore {
     this.disposePlayMode();
     this.disposeDuration();
     this.disposeMaxValue();
-    this.disposeMaxOperand();
+    this.disposeMaxOperandAndOperators();
     this.disposeUserAnswer();
     this.disposeGameOver();
     super.destroy();
@@ -383,21 +401,25 @@ class ChallengeStore extends BaseStore {
       this.correctAnswers = [];
     }
 
-    this.operator = OPERATION_ADD;
+    this.operator = this.operators[random(0, this.operators.length - 1)];
 
     let operands;
     switch (this.operator) {
-      case OPERATION_ADD: {
+      case OPERATOR_ADD: {
         operands = () => {
           const operand1 = random(0, this.maxOperand);
           const operand2 = random(0, this.maxValue - operand1);
-          return { operand1, operand2 };
+          return Math.random() < 0.5 ? { operand1, operand2 } : { operand1: operand2, operand2: operand1 };
         };
         break;
       }
 
-      case OPERATION_SUBTRACT: {
-        throw new Error('Not implemented');
+      case OPERATOR_SUBTRACT: {
+        operands = () => {
+          const operand1 = random(0, this.maxValue);
+          const operand2 = random(0, Math.min(this.maxOperand, operand1));
+          return { operand1, operand2 };
+        };
       }
     }
 

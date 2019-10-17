@@ -18,12 +18,19 @@ export const MODAL_ABOUT = 'MODAL_ABOUT';
 export const modalErrors = [];
 
 // Challenge
-export const OPERATION_ADD = '+';
-export const OPERATION_SUBTRACT = '-';
-export const operations = [
-  OPERATION_ADD,
-  OPERATION_SUBTRACT
+export const OPERATOR_ADD = '+';
+export const OPERATOR_SUBTRACT = '-';
+export const operators = [
+  OPERATOR_ADD,
+  OPERATOR_SUBTRACT
 ];
+
+export const challengeOperators = {
+  addOnly: [OPERATOR_ADD],
+  subtractOnly: [OPERATOR_SUBTRACT],
+  all: [OPERATOR_ADD, OPERATOR_SUBTRACT]
+};
+export const challengeOperatorsIds = Object.keys(challengeOperators);
 
 export const challengeRecordsCount = 10;
 export const challengeDurations = [3, 5, 7, 10, 15];

@@ -7,6 +7,7 @@ import challenges from '../../challenges.json';
 import {
   challengeDurations,
   challengeMaxValues,
+  challengeOperatorsIds,
   MODAL_SETTINGS
 } from '../../constants';
 
@@ -18,6 +19,7 @@ class Settings extends Component {
     this.onDurationChange = this.onDurationChange.bind(this);
     this.onMaxValueChange = this.onMaxValueChange.bind(this);
     this.onMaxOperandChange = this.onMaxOperandChange.bind(this);
+    this.onOperatorsIdChange = this.onOperatorsIdChange.bind(this);
     this.onSoundEnabledChange = this.onSoundEnabledChange.bind(this);
     this.onCloseClick = this.onCloseClick.bind(this);
   }
@@ -42,6 +44,11 @@ class Settings extends Component {
     challengeStore.setMaxOperand(parseInt(event.target.value, 10));
   }
 
+  onOperatorsIdChange(event) {
+    const { challengeStore } = this.props;
+    challengeStore.setOperators(event.target.value);
+  }
+
   onSoundEnabledChange(event) {
     const { generalStore } = this.props;
     generalStore.setSoundEnabled(event.target.checked);
@@ -53,9 +60,17 @@ class Settings extends Component {
   }
 
   render() {
-    const { t, generalStore, challengeStore } = this.props;
+    const { generalStore, challengeStore } = this.props;
     const { soundEnabled, developerMode, modal } = generalStore;
-    const { id: challengeId, duration, maxValue, maxOperand, maxOperands, loading } = challengeStore;
+    const {
+      id: challengeId,
+      duration,
+      maxValue,
+      maxOperand,
+      maxOperands,
+      operatorsId,
+      loading
+    } = challengeStore;
 
     const className = classNames({
       modal: true,
@@ -132,6 +147,24 @@ class Settings extends Component {
                 </div>
               </div>
               <div className="field">
+                <label className="label">Арифметические опреации</label>
+                <div className="control">
+                  <div className="select is-fullwidth">
+                    <select value={operatorsId} onChange={this.onOperatorsIdChange}>
+                      {challengeOperatorsIds.map(operatorsId => {
+                        const label = getOperatorsLabel(operatorsId);
+                        return (
+                          <option key={operatorsId} value={operatorsId}>
+                            {label}
+                          </option>
+                        );
+                      })}
+                    ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="field">
                 <label className="checkbox">
                   <input type="checkbox" checked={soundEnabled} onChange={this.onSoundEnabledChange} />
                   <span>Включить звук</span>
@@ -147,5 +180,15 @@ class Settings extends Component {
     );
   }
 }
+
+function getOperatorsLabel(operatorsId) {
+  switch (operatorsId) {
+    case 'addOnly': return 'Только сложение';
+    case 'subtractOnly': return 'Только вычитание';
+    case 'all': return 'Все';
+  }
+  return operatorsIds;
+}
+
 
 export default Settings;
