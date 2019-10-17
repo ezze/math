@@ -1,0 +1,23 @@
+@import "../../../sass/variables"
+
+
+$toolbar-challenge-width: 240px !default
+$toolbar-user-name-width: 140px !default
+$toolbar-user-name-text-color: $black !default
+$toolbar-user-name-background-color: $white !default
+
+
+.toolbar
+  border-bottom: 1px solid darken($navbar-background-color, 15%)
+
+
+.toolbar-user-name
+  width: $toolbar-user-name-width
+  text-overflow: ellipsis
+  color: $toolbar-user-name-text-color !important
+  background-color: $toolbar-user-name-background-color !important
+
+
+.toolbar-challenge
+  width: $toolbar-challenge-width
+  text-overflow: ellipsis
