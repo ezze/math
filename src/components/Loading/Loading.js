@@ -33,7 +33,11 @@ class Loading extends Component {
 
   onRetryClick() {
     const { challengeStore } = this.props;
-    challengeStore.start().catch(e => console.error(e));
+    challengeStore.loadItems().then(() => {
+      if (this.playMode) {
+        return challengeStore.start();
+      }
+    }).catch(e => console.error(e));
   }
 }
 

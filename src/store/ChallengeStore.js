@@ -331,6 +331,7 @@ class ChallengeStore extends BaseStore {
 
     try {
       this.loading = true;
+      this.loadingError = false;
       await Promise.all(this.items.map(item => {
         const { url } = item;
         return new Promise((resolve, reject) => {
@@ -362,6 +363,7 @@ class ChallengeStore extends BaseStore {
     }
 
     this.reset();
+
     this.startTime = moment().unix();
     this.elapsedInterval = setInterval(() => {
       this.elapsedTime = moment().unix() - this.startTime;

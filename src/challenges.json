@@ -1,4 +1,72 @@
 [{
+  "id": "aivazovsky",
+  "name": "Картины Ивана Айвазовского",
+  "items": [{
+    "id": "01",
+    "name": "Девятый вал (1857 год)",
+    "url": "challenges/aivazovsky/01.jpg"
+  }, {
+    "id": "02",
+    "name": "Всемирный потоп (1864 год)",
+    "url": "challenges/aivazovsky/02.jpg"
+  }, {
+    "id": "03",
+    "name": "Зимний пейзаж (1876 год)",
+    "url": "challenges/aivazovsky/03.jpg"
+  }, {
+    "id": "04",
+    "name": "Корабль в бурю (1895 год)",
+    "url": "challenges/aivazovsky/04.jpg"
+  }, {
+    "id": "05",
+    "name": "Взрыв корабля (1900 год, последняя картина художника)",
+    "url": "challenges/aivazovsky/05.jpg"
+  }, {
+    "id": "06",
+    "name": "Море. Коктебель (1853 год)",
+    "url": "challenges/aivazovsky/06.jpg"
+  }, {
+    "id": "07",
+    "name": "Радуга (1873 год)",
+    "url": "challenges/aivazovsky/07.jpg"
+  }, {
+    "id": "08",
+    "name": "Чёрное море (На Чёрном море начинает разыгрываться буря) (1881 год)",
+    "url": "challenges/aivazovsky/08.jpg"
+  }, {
+    "id": "09",
+    "name": "Волна (1895 год)",
+    "url": "challenges/aivazovsky/09.jpg"
+  }, {
+    "id": "10",
+    "name": "Лунная ночь. Окрестности Ялты (1863 год)",
+    "url": "challenges/aivazovsky/10.jpg"
+  }, {
+    "id": "11",
+    "name": "Море (1895 год)",
+    "url": "challenges/aivazovsky/11.jpg"
+  }, {
+    "id": "12",
+    "name": "Бриг Меркурий (1848 год)",
+    "url": "challenges/aivazovsky/12.jpg"
+  }, {
+    "id": "13",
+    "name": "Ледяные горы (1870 год)",
+    "url": "challenges/aivazovsky/13.jpg"
+  }, {
+    "id": "14",
+    "name": "Буря на море лунной ночью (1849 год)",
+    "url": "challenges/aivazovsky/14.jpg"
+  }, {
+    "id": "15",
+    "name": "Вид Одессы в лунную ночь (1855 год)",
+    "url": "challenges/aivazovsky/15.jpg"
+  }, {
+    "id": "16",
+    "name": "Ночной пейзаж. Венеция",
+    "url": "challenges/aivazovsky/16.jpg"
+  }]
+}, {
   "id": "lada",
   "name": "Автомобили LADA",
   "items": [{

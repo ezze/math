@@ -36,6 +36,10 @@ class PlayFieldImagery extends Component {
       currentItemCompleted
     } = challengeStore;
 
+    if (!currentItem) {
+      return '';
+    }
+
     const { url } = currentItem;
 
     const className = classNames({
