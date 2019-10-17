@@ -2,14 +2,18 @@
 @import "~bulma/sass/utilities/initial-variables"
 
 
-$play-field-question-top: 60px !default
-$play-field-question-font-size: 120px !default
+$play-field-question-top: 70px !default
+$play-field-question-font-size: 110px !default
 $play-field-question-font-gap: $play-field-question-font-size * 0.15 !default
 $play-field-question-operand-color: #f39847 !default
 $play-field-question-operator-color: #2ba3d5 !default
 $play-field-question-correct-color: #2cbf37 !default
 $play-field-question-wrong-color: #d52020 !default
 $play-field-question-answer-color: #ba1773 !default
+
+$play-field-item-description-top: $play-field-question-top !default
+$play-field-item-description-height: $play-field-question-font-size !default
+$play-field-item-description-width: 700px
 
 $play-field-imagery-gap: 50px !default
 $play-field-imagery-top: $play-field-question-top + $play-field-question-font-size + $play-field-imagery-gap !default
@@ -84,6 +88,21 @@ $play-field-imagery-mosaic-wrong-color: #ef1818 !default
 
     span:nth-child(2)
       color: $play-field-question-correct-color
+
+
+.play-field-item-description
+  font-family: $family-sans-serif
+  position: relative
+  top: $play-field-item-description-top
+  width: $play-field-item-description-width
+  height: $play-field-item-description-height
+  overflow: hidden
+  left: 50%
+  margin-left: -$play-field-item-description-width / 2
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-items: center
 
 
 .play-field-imagery

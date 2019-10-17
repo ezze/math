@@ -23,7 +23,15 @@ class PlayFieldImagery extends Component {
 
   render() {
     const { challengeStore } = this.props;
-    const { maxValue, correctField, userCorrect, userAnswer, correctAnswer, currentItem } = challengeStore;
+    const {
+      maxValue,
+      correctField,
+      userCorrect,
+      userAnswer,
+      correctAnswer,
+      currentItem,
+      currentItemCompleted
+    } = challengeStore;
     const { url } = currentItem;
     const mosaicClassName = classNames({
       'play-field-imagery-mosaic': true,
@@ -42,8 +50,11 @@ class PlayFieldImagery extends Component {
                     const className = classNames({
                       'play-field-imagery-mosaic-item': true,
                       'play-field-imagery-mosaic-item-visible': visible,
-                      'play-field-imagery-mosaic-item-correct': userAnswer && answer === correctAnswer,
-                      'play-field-imagery-mosaic-item-wrong': answer === userAnswer && !userCorrect
+                      'play-field-imagery-mosaic-item-correct': (
+                        !currentItemCompleted && userAnswer && answer === correctAnswer
+                      ),
+                      'play-field-imagery-mosaic-item-wrong': (
+                        !currentItemCompleted && answer === userAnswer && !userCorrect)
                     });
                     return (
                       <div key={j} className={className} data-answer={answer} onClick={this.onAnswerClick}>

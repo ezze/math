@@ -32,7 +32,7 @@ class HallOfFame extends Component {
   render() {
     const { generalStore, challengeStore } = this.props;
     const { modal } = generalStore;
-    const { duration } = challengeStore;
+    const { maxValue, duration } = challengeStore;
     const records = this.getRecords();
     const table = records.length > 0 ? (
       <table className="hall-of-fame-table">

@@ -74,28 +74,36 @@ class PlayField extends Component {
 
   render() {
     const { challengeStore } = this.props;
-    const {
-      playMode,
-      maxValue,
-      operand1,
-      operand2,
-      operator,
-      userAnswer,
-      correctAnswer
-    } = challengeStore;
+    const { playMode } = challengeStore;
+    if (!playMode) {
+      return '';
+    }
 
-    const answer = typeof userAnswer === 'number' ? userAnswer.toString() : this.state.answer;
-    const correction = typeof userAnswer === 'number' && userAnswer !== correctAnswer ? correctAnswer.toString() : '';
-    const spacesCount = 2 * maxValue.toString().length - answer.length - correction.length;
+    const { currentItemCompleted } = challengeStore;
 
-    const answerClassName = classNames({
-      'play-field-question-answer': true,
-      'play-field-question-answer-correct': typeof userAnswer === 'number' && userAnswer === correctAnswer,
-      'play-field-question-answer-wrong': typeof userAnswer === 'number' && userAnswer !== correctAnswer
-    });
+    let content;
+    if (!currentItemCompleted) {
+      const {
+        maxValue,
+        operand1,
+        operand2,
+        operator,
+        userCorrect,
+        userAnswer,
+        correctAnswer
+      } = challengeStore;
 
-    return playMode ? (
-      <div className="play-field">
+      const answer = typeof userAnswer === 'number' ? userAnswer.toString() : this.state.answer;
+      const correction = typeof userAnswer === 'number' && !userCorrect ? correctAnswer.toString() : '';
+      const spacesCount = 2 * maxValue.toString().length - answer.length - correction.length;
+
+      const answerClassName = classNames({
+        'play-field-question-answer': true,
+        'play-field-question-answer-correct': typeof userAnswer === 'number' && userCorrect,
+        'play-field-question-answer-wrong': typeof userAnswer === 'number' && !userCorrect
+      });
+
+      content = (
         <div className="play-field-question">
           <div className="play-field-question-operand">{operand1}</div>
           <div className="play-field-question-operator">{operator}</div>
@@ -107,6 +115,22 @@ class PlayField extends Component {
             <span>{new Array(spacesCount + 1).join(' ')}</span>
           </div>
         </div>
+      );
+    }
+    else {
+      const { currentItemName } = challengeStore;
+      content = (
+        <div className="play-field-item-description">
+          <div className="notification is-white">
+            {currentItemName}
+          </div>
+        </div>
+      );
+    }
+
+    return playMode ? (
+      <div className="play-field">
+        {content}
         <PlayFieldImagery />
       </div>
     ) : '';

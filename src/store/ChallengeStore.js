@@ -76,19 +76,19 @@ class ChallengeStore extends BaseStore {
   }
 
   @computed get currentItem() {
-    return this.item(this.itemId);
+    return this.itemId ? this.item(this.itemId) : null;
   }
 
-  @computed get maxOperands() {
-    const maxOperands = [];
-    for (let i = 5; i <= this.maxValue; i += 5) {
-      maxOperands.push(i);
-    }
-    return maxOperands;
+  @computed get currentItemName() {
+    return this.currentItem ? this.currentItem.name : '';
   }
 
   @computed get currentItemImagerySize() {
     return challengeFieldParams[`${this.maxValue}`];
+  }
+
+  @computed get currentItemCompleted() {
+    return this.currentItem ? this.correctAnswers.length === this.maxValue : false;
   }
 
   @computed get correctField() {
@@ -105,8 +105,12 @@ class ChallengeStore extends BaseStore {
     return field;
   }
 
-  @computed get currentItemCompleted() {
-    return this.currentItem ? this.correctAnswers.length === this.maxValue : false;
+  @computed get maxOperands() {
+    const maxOperands = [];
+    for (let i = 5; i <= this.maxValue; i += 5) {
+      maxOperands.push(i);
+    }
+    return maxOperands;
   }
 
   @computed get maxConsecutiveRepeatsCount() {
@@ -433,7 +437,7 @@ class ChallengeStore extends BaseStore {
       this.correctAnswers.splice(removeIndex, 1);
     }
 
-    this.nextTimeout = setTimeout(() => this.next(), 1500);
+    this.nextTimeout = setTimeout(() => this.next(), this.currentItemCompleted ? 10000 : 1500);
   }
 }
 
