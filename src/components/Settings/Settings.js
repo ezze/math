@@ -6,6 +6,7 @@ import challenges from '../../challenges.json';
 
 import {
   challengeDurations,
+  challengeMaxValues,
   MODAL_SETTINGS
 } from '../../constants';
 
@@ -15,6 +16,8 @@ class Settings extends Component {
     super(props);
     this.onChallengeChange = this.onChallengeChange.bind(this);
     this.onDurationChange = this.onDurationChange.bind(this);
+    this.onMaxValueChange = this.onMaxValueChange.bind(this);
+    this.onMaxOperandChange = this.onMaxOperandChange.bind(this);
     this.onSoundEnabledChange = this.onSoundEnabledChange.bind(this);
     this.onCloseClick = this.onCloseClick.bind(this);
   }
@@ -26,7 +29,17 @@ class Settings extends Component {
 
   onDurationChange(event) {
     const { challengeStore } = this.props;
-    challengeStore.setDuration(event.target.value);
+    challengeStore.setDuration(parseInt(event.target.value, 10));
+  }
+
+  onMaxValueChange(event) {
+    const { challengeStore } = this.props;
+    challengeStore.setMaxValue(parseInt(event.target.value, 10));
+  }
+
+  onMaxOperandChange(event) {
+    const { challengeStore } = this.props;
+    challengeStore.setMaxOperand(parseInt(event.target.value, 10));
   }
 
   onSoundEnabledChange(event) {
@@ -42,7 +55,7 @@ class Settings extends Component {
   render() {
     const { t, generalStore, challengeStore } = this.props;
     const { soundEnabled, developerMode, modal } = generalStore;
-    const { id: challengeId, duration, loading } = challengeStore;
+    const { id: challengeId, duration, maxValue, maxOperand, maxOperands, loading } = challengeStore;
 
     const className = classNames({
       modal: true,
@@ -84,6 +97,34 @@ class Settings extends Component {
                       {challengeDurations.concat(developerMode ? [0.1] : []).map(duration => (
                         <option key={duration} value={duration}>
                           {duration}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Максимальное значение</label>
+                <div className="control">
+                  <div className="select is-fullwidth">
+                    <select value={maxValue} onChange={this.onMaxValueChange}>
+                      {challengeMaxValues.map(maxValue => (
+                        <option key={maxValue} value={maxValue}>
+                          {maxValue}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div className="field">
+                <label className="label">Максимальное значение одного из операндов</label>
+                <div className="control">
+                  <div className="select is-fullwidth">
+                    <select value={maxOperand} onChange={this.onMaxOperandChange}>
+                      {maxOperands.map(maxOperand => (
+                        <option key={maxOperand} value={maxOperand}>
+                          {maxOperand}
                         </option>
                       ))}
                     </select>

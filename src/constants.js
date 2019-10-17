@@ -27,3 +27,12 @@ export const operations = [
 
 export const challengeRecordsCount = 10;
 export const challengeDurations = [3, 5, 7, 10, 15];
+export const challengeFieldParams = {
+  10: { width: 5, height: 2 },
+  20: { width: 5, height: 4 },
+  30: { width: 6, height: 5 },
+  40: { width: 8, height: 5 },
+  50: { width: 10, height: 5 },
+  100: { width: 10, height: 10 }
+};
+export const challengeMaxValues = Object.keys(challengeFieldParams).map(maxValue => parseInt(maxValue, 10));

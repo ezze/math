@@ -16,7 +16,12 @@ $play-field-imagery-top: $play-field-question-top + $play-field-question-font-si
 $play-field-imagery-bottom: 80px !default
 $play-field-imagery-border-radius: 6px !default
 
-$play-field-imagery-mosaic-answer-font-size: 32px !default
+$play-field-imagery-mosaic-answer-font-size: 18px !default
+$play-field-imagery-mosaic-answer-max-value-10-font-size: 40px !default
+$play-field-imagery-mosaic-answer-max-value-20-font-size: 32px !default
+$play-field-imagery-mosaic-answer-max-value-30-font-size: 28px !default
+$play-field-imagery-mosaic-answer-max-value-40-font-size: 24px !default
+$play-field-imagery-mosaic-answer-max-value-50-font-size: 22px !default
 $play-field-imagery-mosaic-item-color: #d01a5f !default
 $play-field-imagery-mosaic-item-hover-color: #f34d8c !default
 $play-field-imagery-mosaic-correct-color: #a1d516 !default
@@ -88,6 +93,9 @@ $play-field-imagery-mosaic-wrong-color: #ef1818 !default
   left: 0
   right: 0
   text-align: center
+
+  @media screen and (max-width: 800px), screen and (max-height: 600px)
+    display: none
 
 
 .play-field-imagery-inner
@@ -169,6 +177,22 @@ $play-field-imagery-mosaic-wrong-color: #ef1818 !default
 
 .play-field-imagery-mosaic-answer
   color: $white
-  font-size: $play-field-imagery-mosaic-answer-font-size
   text-overflow: clip
-  white-space: nowrap
+
+  .play-field-imagery-mosaic &
+    font-size: $play-field-imagery-mosaic-answer-font-size
+
+  .play-field-imagery-mosaic.play-field-imagery-mosaic-max-value-10 &
+    font-size: $play-field-imagery-mosaic-answer-max-value-10-font-size
+
+  .play-field-imagery-mosaic.play-field-imagery-mosaic-max-value-20 &
+    font-size: $play-field-imagery-mosaic-answer-max-value-20-font-size
+
+  .play-field-imagery-mosaic.play-field-imagery-mosaic-max-value-30 &
+    font-size: $play-field-imagery-mosaic-answer-max-value-30-font-size
+
+  .play-field-imagery-mosaic.play-field-imagery-mosaic-max-value-40 &
+    font-size: $play-field-imagery-mosaic-answer-max-value-40-font-size
+
+  .play-field-imagery-mosaic.play-field-imagery-mosaic-max-value-50 &
+    font-size: $play-field-imagery-mosaic-answer-max-value-50-font-size

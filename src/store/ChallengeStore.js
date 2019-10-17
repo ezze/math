@@ -1,4 +1,4 @@
-import { observable, computed, action, reaction, toJS } from 'mobx';
+import { observable, computed, action, reaction } from 'mobx';
 import { createTransformer } from 'mobx-utils';
 import moment from 'moment';
 
@@ -9,6 +9,8 @@ import { playSound } from '../sound';
 
 import {
   challengeDurations,
+  challengeFieldParams,
+  challengeMaxValues,
   OPERATION_ADD,
   OPERATION_SUBTRACT,
   SOUND_TYPE_SUCCESS,
@@ -22,8 +24,8 @@ class ChallengeStore extends BaseStore {
   @observable id = challenges[0].id;
   @observable userName = '';
   @observable duration = challengeDurations[1];
-  @observable maxOperand = 10;
-  @observable maxValue = 10;
+  @observable maxOperand = challengeMaxValues[0];
+  @observable maxValue = challengeMaxValues[0];
   @observable playMode = false;
   @observable gameOver = false;
   @observable itemId = null;
@@ -77,8 +79,16 @@ class ChallengeStore extends BaseStore {
     return this.item(this.itemId);
   }
 
+  @computed get maxOperands() {
+    const maxOperands = [];
+    for (let i = 5; i <= this.maxValue; i += 5) {
+      maxOperands.push(i);
+    }
+    return maxOperands;
+  }
+
   @computed get currentItemImagerySize() {
-    return { width: 5, height: 2 };
+    return challengeFieldParams[`${this.maxValue}`];
   }
 
   @computed get correctField() {
@@ -100,7 +110,7 @@ class ChallengeStore extends BaseStore {
   }
 
   @computed get maxConsecutiveRepeatsCount() {
-    return 2;
+    return this.maxValue <= 10 ? 2 : 1;
   }
 
   @computed get correctAnswer() {
@@ -141,6 +151,20 @@ class ChallengeStore extends BaseStore {
 
   @action setDuration(duration) {
     this.duration = duration;
+  }
+
+  @action setMaxValue(maxValue) {
+    if (!challengeMaxValues.includes(maxValue)) {
+      return;
+    }
+    this.maxValue = maxValue;
+  }
+
+  @action setMaxOperand(maxOperand) {
+    if (!this.maxOperands.includes(maxOperand)) {
+      return;
+    }
+    this.maxOperand = maxOperand;
   }
 
   @action setPlayMode(playMode) {
@@ -207,6 +231,19 @@ class ChallengeStore extends BaseStore {
       }
     });
 
+    this.disposeMaxValue = reaction(() => this.maxValue, maxValue => {
+      this.maxOperand = maxValue;
+      if (this.playMode) {
+        this.start().catch(e => console.error(e));
+      }
+    });
+
+    this.disposeMaxOperand = reaction(() => this.maxOperand, () => {
+      if (this.playMode) {
+        this.start().catch(e => console.error(e));
+      }
+    });
+
     this.disposeUserAnswer = reaction(() => this.userAnswer, userAnswer => {
       if (!this.playMode || typeof userAnswer !== 'number') {
         return;
@@ -237,6 +274,8 @@ class ChallengeStore extends BaseStore {
     this.disposeId();
     this.disposePlayMode();
     this.disposeDuration();
+    this.disposeMaxValue();
+    this.disposeMaxOperand();
     this.disposeUserAnswer();
     this.disposeGameOver();
     super.destroy();

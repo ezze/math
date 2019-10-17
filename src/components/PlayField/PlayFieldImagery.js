@@ -23,13 +23,17 @@ class PlayFieldImagery extends Component {
 
   render() {
     const { challengeStore } = this.props;
-    const { correctField, userCorrect, userAnswer, correctAnswer, currentItem } = challengeStore;
+    const { maxValue, correctField, userCorrect, userAnswer, correctAnswer, currentItem } = challengeStore;
     const { url } = currentItem;
+    const mosaicClassName = classNames({
+      'play-field-imagery-mosaic': true,
+      [`play-field-imagery-mosaic-max-value-${maxValue}`]: true
+    });
     return (
       <div className="play-field-imagery">
         <div className="play-field-imagery-inner">
           <img src={url} />
-          <div className="play-field-imagery-mosaic">
+          <div className={mosaicClassName}>
             {correctField.map((row, i) => {
               return (
                 <div key={i} className="play-field-imagery-mosaic-row">
