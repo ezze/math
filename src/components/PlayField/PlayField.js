@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { reaction } from 'mobx';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
+
+import PlayFieldImagery from './PlayFieldImagery';
 
 import './sass/index.sass';
 
@@ -17,10 +20,18 @@ class PlayField extends Component {
 
   componentDidMount() {
     document.addEventListener('keydown', this.onKeyDown);
+
+    const { challengeStore } = this.props;
+    this.disposeUserAnswer = reaction(() => challengeStore.userAnswer, userAnswer => {
+      if (typeof userAnswer === 'number') {
+        this.setState({ answer: '' });
+      }
+    });
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
+    this.disposeUserAnswer();
   }
 
   onKeyDown(event) {
@@ -50,7 +61,6 @@ class PlayField extends Component {
       if (answer.length === 0) {
         return;
       }
-      this.setState({ answer: '' });
       challengeStore.setUserAnswer(parseInt(answer, 10));
       return;
     }
@@ -64,7 +74,15 @@ class PlayField extends Component {
 
   render() {
     const { challengeStore } = this.props;
-    const { playMode, maxValue, operand1, operand2, operator, userAnswer, correctAnswer } = challengeStore;
+    const {
+      playMode,
+      maxValue,
+      operand1,
+      operand2,
+      operator,
+      userAnswer,
+      correctAnswer
+    } = challengeStore;
 
     const answer = typeof userAnswer === 'number' ? userAnswer.toString() : this.state.answer;
     const correction = typeof userAnswer === 'number' && userAnswer !== correctAnswer ? correctAnswer.toString() : '';
@@ -89,6 +107,7 @@ class PlayField extends Component {
             <span>{new Array(spacesCount + 1).join(' ')}</span>
           </div>
         </div>
+        <PlayFieldImagery />
       </div>
     ) : '';
   }

@@ -1,4 +1,4 @@
-import { observable, computed, action, reaction } from 'mobx';
+import { observable, computed, action, reaction, toJS } from 'mobx';
 import { createTransformer } from 'mobx-utils';
 import moment from 'moment';
 
@@ -27,13 +27,15 @@ class ChallengeStore extends BaseStore {
   @observable playMode = false;
   @observable gameOver = false;
   @observable itemId = null;
-  @observable usedItemIds = [];
+  @observable.shallow usedItemIds = [];
   @observable operand1 = null;
   @observable operand2 = null;
   @observable operator = null;
+  @observable consecutiveRepeatsCount = 0;
   @observable userAnswer = null;
   @observable innerCount = 0;
   @observable correctCount = 0;
+  @observable.shallow correctAnswers = [];
 
   @observable startTime = null;
   @observable elapsedTime = 0;
@@ -69,6 +71,36 @@ class ChallengeStore extends BaseStore {
     return createTransformer(id => {
       return this.items.find(item => item.id === id) || null;
     });
+  }
+
+  @computed get currentItem() {
+    return this.item(this.itemId);
+  }
+
+  @computed get currentItemImagerySize() {
+    return { width: 5, height: 2 };
+  }
+
+  @computed get correctField() {
+    const { width, height } = this.currentItemImagerySize;
+    const field = [];
+    for (let i = 1; i <= height; i++) {
+      const row = [];
+      for (let j = 1; j <= width; j++) {
+        const answer = (i - 1) * width + j;
+        row.push(this.correctAnswers.includes(answer));
+      }
+      field.push(row);
+    }
+    return field;
+  }
+
+  @computed get currentItemCompleted() {
+    return this.currentItem ? this.correctAnswers.length === this.maxValue : false;
+  }
+
+  @computed get maxConsecutiveRepeatsCount() {
+    return 2;
   }
 
   @computed get correctAnswer() {
@@ -116,6 +148,9 @@ class ChallengeStore extends BaseStore {
   }
 
   @action setUserAnswer(userAnswer) {
+    if (typeof this.userAnswer === 'number') {
+      return;
+    }
     this.userAnswer = userAnswer;
   }
 
@@ -130,9 +165,11 @@ class ChallengeStore extends BaseStore {
         'operand1',
         'operand2',
         'operator',
+        'consecutiveRepeatsCount',
         'userAnswer',
         'innerCount',
         'correctCount',
+        'correctAnswers',
         'startTime',
         'elapsedTime',
         'loading',
@@ -212,9 +249,11 @@ class ChallengeStore extends BaseStore {
     this.operand1 = null;
     this.operand2 = null;
     this.operator = null;
+    this.consecutiveRepeatsCount = 0;
     this.userAnswer = null;
     this.innerCount = 0;
     this.correctCount = 0;
+    this.correctAnswers = [];
 
     this.startTime = null;
     this.elapsedTime = 0;
@@ -286,28 +325,53 @@ class ChallengeStore extends BaseStore {
       this.nextTimeout = null;
     }
 
-    if (typeof this.itemId !== 'number') {
+    if (!this.itemId || this.currentItemCompleted) {
+      if (this.usedItemIds.length === this.itemIds.length) {
+        this.usedItemIds = [];
+      }
       let id;
       do {
-        const index = random(0, this.items.length - 1);
+        const index = random(0, this.itemIds.length - 1);
         id = this.itemIds[index];
       }
       while (this.usedItemIds.includes(id));
       this.itemId = id;
+      this.correctAnswers = [];
     }
 
     this.operator = OPERATION_ADD;
 
+    let operands;
     switch (this.operator) {
       case OPERATION_ADD: {
-        this.operand1 = random(0, this.maxOperand);
-        this.operand2 = random(0, this.maxValue - this.operand1);
+        operands = () => {
+          const operand1 = random(0, this.maxOperand);
+          const operand2 = random(0, this.maxValue - operand1);
+          return { operand1, operand2 };
+        };
         break;
       }
 
       case OPERATION_SUBTRACT: {
         throw new Error('Not implemented');
       }
+    }
+
+    do {
+      const { operand1, operand2 } = operands();
+      this.operand1 = operand1;
+      this.operand2 = operand2;
+    }
+    while (
+      this.consecutiveRepeatsCount === this.maxConsecutiveRepeatsCount &&
+      this.correctAnswers.includes(this.correctAnswer)
+    );
+
+    if (this.correctAnswers.includes(this.correctAnswer)) {
+      this.consecutiveRepeatsCount++;
+    }
+    else {
+      this.consecutiveRepeatsCount = 0;
     }
 
     this.innerCount++;
@@ -320,6 +384,9 @@ class ChallengeStore extends BaseStore {
 
     if (this.userCorrect) {
       this.correctCount++;
+      if (this.correctAnswer > 0 && !this.correctAnswers.includes(this.correctAnswer)) {
+        this.correctAnswers.push(this.correctAnswer);
+      }
     }
 
     this.nextTimeout = setTimeout(() => this.next(), 1500);

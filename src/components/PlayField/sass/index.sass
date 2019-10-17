@@ -5,10 +5,21 @@
 $play-field-question-top: 60px !default
 $play-field-question-font-size: 120px !default
 $play-field-question-font-gap: $play-field-question-font-size * 0.15 !default
-$play-field-question-operand-color: #f39847
-$play-field-question-operator-color: #2ba3d5
-$play-field-question-correct-color: #2cbf37
-$play-field-question-wrong-color: #d52020
+$play-field-question-operand-color: #f39847 !default
+$play-field-question-operator-color: #2ba3d5 !default
+$play-field-question-correct-color: #2cbf37 !default
+$play-field-question-wrong-color: #d52020 !default
+
+$play-field-imagery-gap: 50px !default
+$play-field-imagery-top: $play-field-question-top + $play-field-question-font-size + $play-field-imagery-gap !default
+$play-field-imagery-bottom: 80px !default
+$play-field-imagery-border-radius: 6px !default
+
+$play-field-imagery-mosaic-answer-font-size: 32px !default
+$play-field-imagery-mosaic-item-color: #d01a5f !default
+$play-field-imagery-mosaic-item-hover-color: #f34d8c !default
+$play-field-imagery-mosaic-correct-color: #a1d516 !default
+$play-field-imagery-mosaic-wrong-color: #ef1818 !default
 
 
 .play-field
@@ -66,3 +77,96 @@ $play-field-question-wrong-color: #d52020
 
     span:nth-child(2)
       color: $play-field-question-correct-color
+
+
+.play-field-imagery
+  position: absolute
+  top: $play-field-imagery-top
+  bottom: $play-field-imagery-bottom
+  left: 0
+  right: 0
+  text-align: center
+
+
+.play-field-imagery-inner
+  position: relative
+  display: inline-block
+  height: 100%
+
+  > img
+    height: 100%
+    border: 1px solid $white
+    border-radius: $play-field-imagery-border-radius
+
+
+.play-field-imagery-mosaic
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+  display: flex
+  flex-direction: column
+  box-shadow: 1px 1px 2px $black
+  border-radius: $play-field-imagery-border-radius
+
+
+.play-field-imagery-mosaic-row
+  display: flex
+  flex-direction: row
+  flex: 1
+
+  &:first-child
+    > .play-field-imagery-mosaic-item
+      &:first-child
+        border-top-left-radius: $play-field-imagery-border-radius
+
+      &:last-child
+        border-top-right-radius: $play-field-imagery-border-radius
+
+  &:last-child
+    > .play-field-imagery-mosaic-item
+      &:first-child
+        border-bottom-left-radius: $play-field-imagery-border-radius
+
+      &:last-child
+        border-bottom-right-radius: $play-field-imagery-border-radius
+
+
+.play-field-imagery-mosaic-item
+  display: flex
+  flex-direction: column
+  flex: 1
+  justify-content: center
+  border: 1px solid $white
+  cursor: pointer
+  background-color: $play-field-imagery-mosaic-item-color
+  box-shadow: inset 3px 3px 6px darken($play-field-imagery-mosaic-item-color, 20%)
+  overflow: hidden
+
+  &:hover
+    background-color: $play-field-imagery-mosaic-item-hover-color
+
+  &.play-field-imagery-mosaic-item-visible
+    opacity: 0
+
+    &:hover
+      opacity: 0.6
+
+  &.play-field-imagery-mosaic-item-correct
+    background-color: $play-field-imagery-mosaic-correct-color !important
+    box-shadow: inset 3px 3px 6px darken($play-field-imagery-mosaic-correct-color, 20%)
+
+    &.play-field-imagery-mosaic-item-visible
+      opacity: 0.6
+
+  &.play-field-imagery-mosaic-item-wrong
+    background-color: $play-field-imagery-mosaic-wrong-color !important
+    box-shadow: inset 3px 3px 6px darken($play-field-imagery-mosaic-wrong-color, 20%)
+
+
+.play-field-imagery-mosaic-answer
+  color: $white
+  font-size: $play-field-imagery-mosaic-answer-font-size
+  text-overflow: clip
+  white-space: nowrap
