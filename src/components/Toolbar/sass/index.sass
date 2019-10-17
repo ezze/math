@@ -1,30 +1,14 @@
 @import "../../../sass/variables"
 
 
-$toolbar-gap: 15px !default
-$toolbar-button-gap: 10px !default
-$toolbar-user-name-width: 180px !default
+$toolbar-challenge-width: 240px !default
+$toolbar-user-name-width: 140px !default
 $toolbar-user-name-text-color: $black !default
 $toolbar-user-name-background-color: $white !default
 
 
 .toolbar
-  position: absolute
-  display: flex
-  flex-direction: row
-  justify-content: space-between
-  left: $toolbar-gap
-  right: $toolbar-gap
-  top: $toolbar-gap
-  pointer-events: none
-
-  > div
-    display: flex
-    flex-direction: row
-
-    > *
-      pointer-events: auto
-      margin-left: $toolbar-button-gap
+  border-bottom: 1px solid darken($navbar-background-color, 15%)
 
 
 .toolbar-user-name
@@ -32,3 +16,8 @@ $toolbar-user-name-background-color: $white !default
   text-overflow: ellipsis
   color: $toolbar-user-name-text-color !important
   background-color: $toolbar-user-name-background-color !important
+
+
+.toolbar-challenge
+  width: $toolbar-challenge-width
+  text-overflow: ellipsis
