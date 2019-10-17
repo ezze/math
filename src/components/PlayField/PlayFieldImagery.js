@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
 
-@inject('challengeStore') @observer
+@inject('generalStore', 'challengeStore') @observer
 class PlayFieldImagery extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,10 @@ class PlayFieldImagery extends Component {
   }
 
   render() {
-    const { challengeStore } = this.props;
+    const { generalStore, challengeStore } = this.props;
+
+    const { developerMode } = generalStore;
+
     const {
       maxValue,
       correctField,
@@ -32,13 +35,21 @@ class PlayFieldImagery extends Component {
       currentItem,
       currentItemCompleted
     } = challengeStore;
+
     const { url } = currentItem;
+
+    const className = classNames({
+      'play-field-imagery': true,
+      'play-field-imagery-developer': developerMode
+    });
+
     const mosaicClassName = classNames({
       'play-field-imagery-mosaic': true,
       [`play-field-imagery-mosaic-max-value-${maxValue}`]: true
     });
+
     return (
-      <div className="play-field-imagery">
+      <div className={className}>
         <div className="play-field-imagery-inner">
           <img src={url} />
           <div className={mosaicClassName}>

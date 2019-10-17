@@ -113,8 +113,9 @@ $play-field-imagery-mosaic-wrong-color: #ef1818 !default
   right: 0
   text-align: center
 
-  @media screen and (max-width: 800px), screen and (max-height: 600px)
-    display: none
+  &:not(.play-field-imagery-developer)
+    @media screen and (max-width: 800px), screen and (max-height: 600px)
+      display: none
 
 
 .play-field-imagery-inner

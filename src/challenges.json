@@ -2,13 +2,49 @@
   "id": "lada",
   "name": "Автомобили LADA",
   "items": [{
+    "id": "4x4-3d",
+    "name": "LADA 4x4 (трёхдверная)",
+    "url": "challenges/lada/4x4-3d.jpg"
+  }, {
     "id": "4x4-urban-3d",
-    "name": "LADA 4x4 Urban",
+    "name": "LADA 4x4 Urban (трёхдверная)",
     "url": "challenges/lada/4x4-urban-3d.jpg"
+  }, {
+    "id": "4x4-5d",
+    "name": "LADA 4x4 (пятидверная)",
+    "url": "challenges/lada/4x4-5d.jpg"
+  }, {
+    "id": "4x4-urban-5",
+    "name": "LADA 4x4 Urban (пятидверная)",
+    "url": "challenges/lada/4x4-urban-5d.jpg"
+  }, {
+    "id": "granta-liftback",
+    "name": "LADA Granta (лифтбек)",
+    "url": "challenges/lada/granta-liftback.jpg"
+  }, {
+    "id": "kalina cross",
+    "name": "LADA Kalina Cross",
+    "url": "challenges/lada/kalina-cross.jpg"
+  }, {
+    "id": "vesta",
+    "name": "LADA Vesta",
+    "url": "challenges/lada/vesta.jpg"
+  }, {
+    "id": "vesta-sw",
+    "name": "LADA Vesta SW",
+    "url": "challenges/lada/vesta-sw.jpg"
+  }, {
+    "id": "vesta-cross",
+    "name": "LADA Vesta Cross",
+    "url": "challenges/lada/vesta-cross.jpg"
   }, {
     "id": "vesta-sw-cross",
     "name": "LADA Vesta SW Cross",
     "url": "challenges/lada/vesta-sw-cross.jpg"
+  }, {
+    "id": "xray",
+    "name": "LADA X-Ray",
+    "url": "challenges/lada/xray.jpg"
   }, {
     "id": "xray-cross",
     "name": "LADA X-Ray Cross",
