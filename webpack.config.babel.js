@@ -109,7 +109,7 @@ export default (env, argv) => {
         filename: path.resolve(__dirname, 'dist/index.html'),
         inject: false,
         template: htmlTemplate,
-        title: 'Math',
+        title: 'Арифметика',
         meta: [{
           name: 'viewport',
           content: 'width=device-width, initial-scale=1'

@@ -27,11 +27,17 @@ class PlayField extends Component {
         this.setState({ answer: '' });
       }
     });
+    this.disposeGameOver = reaction(() => challengeStore.gameOver, gameOver => {
+      if (gameOver) {
+        this.setState({ answer: '' });
+      }
+    });
   }
 
   componentWillUnmount() {
     document.removeEventListener('keydown', this.onKeyDown);
     this.disposeUserAnswer();
+    this.disposeGameOver();
   }
 
   onKeyDown(event) {
