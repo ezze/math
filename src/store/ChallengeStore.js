@@ -326,6 +326,7 @@ class ChallengeStore extends BaseStore {
     }
 
     if (!this.itemId || this.currentItemCompleted) {
+      const previousItemId = this.itemId;
       if (this.usedItemIds.length === this.itemIds.length) {
         this.usedItemIds = [];
       }
@@ -334,7 +335,7 @@ class ChallengeStore extends BaseStore {
         const index = random(0, this.itemIds.length - 1);
         id = this.itemIds[index];
       }
-      while (this.usedItemIds.includes(id));
+      while (this.usedItemIds.includes(id) || (id === previousItemId && this.itemIds.length > 1));
       this.itemId = id;
       this.correctAnswers = [];
     }
@@ -363,11 +364,11 @@ class ChallengeStore extends BaseStore {
       this.operand2 = operand2;
     }
     while (
-      this.consecutiveRepeatsCount === this.maxConsecutiveRepeatsCount &&
-      this.correctAnswers.includes(this.correctAnswer)
+      this.consecutiveRepeatsCount >= this.maxConsecutiveRepeatsCount &&
+      (this.correctAnswers.includes(this.correctAnswer) || this.correctAnswer === 0)
     );
 
-    if (this.correctAnswers.includes(this.correctAnswer)) {
+    if (this.correctAnswers.includes(this.correctAnswer) || this.correctAnswer === 0) {
       this.consecutiveRepeatsCount++;
     }
     else {
@@ -387,6 +388,10 @@ class ChallengeStore extends BaseStore {
       if (this.correctAnswer > 0 && !this.correctAnswers.includes(this.correctAnswer)) {
         this.correctAnswers.push(this.correctAnswer);
       }
+    }
+    else if (this.correctAnswers.length > 0) {
+      const removeIndex = random(0, this.correctAnswers.length - 1);
+      this.correctAnswers.splice(removeIndex, 1);
     }
 
     this.nextTimeout = setTimeout(() => this.next(), 1500);

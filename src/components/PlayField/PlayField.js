@@ -35,8 +35,6 @@ class PlayField extends Component {
   }
 
   onKeyDown(event) {
-    event.preventDefault();
-
     const { challengeStore } = this.props;
     const { playMode, gameOver, maxValue, userAnswer } = challengeStore;
     const { answer } = this.state;
@@ -53,11 +51,13 @@ class PlayField extends Component {
     }
 
     if ((event.keyCode === 13 || event.keyCode === 27) && typeof userAnswer === 'number') {
+      event.preventDefault();
       challengeStore.next();
       return;
     }
 
     if (event.keyCode === 13) {
+      event.preventDefault();
       if (answer.length === 0) {
         return;
       }
