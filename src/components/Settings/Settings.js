@@ -170,6 +170,8 @@ class Settings extends Component {
                   <span>Включить звук</span>
                 </label>
               </div>
+            </div>
+            <div className="panel-block">
               <div className="buttons is-right">
                 <button className="button is-primary" onClick={this.onCloseClick}>Закрыть</button>
               </div>
@@ -187,8 +189,7 @@ function getOperatorsLabel(operatorsId) {
     case 'subtractOnly': return 'Только вычитание';
     case 'all': return 'Все';
   }
-  return operatorsIds;
+  return operatorsId;
 }
-
 
 export default Settings;
