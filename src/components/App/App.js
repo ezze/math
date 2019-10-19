@@ -9,8 +9,16 @@ import State from '../State';
 import UserNamePrompt from '../UserNamePrompt';
 import HallOfFame from '../HallOfFame';
 import AudioNotification from '../AudioNotification';
+import ModalNotification from '../ModalNotification';
 import GameOver from '../GameOver';
 import Loading from '../Loading';
+import YandexMetrika from '../YandexMetrika';
+
+import { platformType } from '../../constants';
+
+const mobileUnsupportedText =
+  'Мобильные устройства не поддерживаются. Мы убеждены, что использование смартфонов ' +
+  'детьми не способствует их нормальному развитию. Если Вы считаете иначе, пожалуйста, свяжитесь с разработчиками.';
 
 @inject('generalStore', 'challengeStore') @observer
 class App extends Component {
@@ -36,7 +44,7 @@ class App extends Component {
   }
 
   render() {
-    return (
+    return platformType !== 'mobile' ? (
       <div className="app">
         <PlayField />
         <Toolbar />
@@ -48,6 +56,12 @@ class App extends Component {
         <AudioNotification />
         <GameOver />
         <Loading />
+        <YandexMetrika />
+      </div>
+    ) : (
+      <div className="app">
+        <ModalNotification text={mobileUnsupportedText} visible={true} style="danger" />
+        <YandexMetrika />
       </div>
     );
   }

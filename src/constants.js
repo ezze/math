@@ -1,3 +1,8 @@
+import Bowser from 'bowser';
+
+const { parsedResult } = Bowser.getParser(window.navigator.userAgent);
+export const platformType = parsedResult.platform.type;
+
 // Sounds
 export const SOUND_TYPE_SUCCESS = 'SOUND_TYPE_SUCCESS';
 export const SOUND_TYPE_ERROR = 'SOUND_TYPE_ERROR';

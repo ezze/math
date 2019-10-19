@@ -127,7 +127,7 @@ class PlayField extends Component {
       const { currentItemName } = challengeStore;
       content = (
         <div className="play-field-item-description">
-          <div className="notification is-white">
+          <div className="notification is-warning">
             {currentItemName}
           </div>
         </div>

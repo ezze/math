@@ -1,6 +1,6 @@
 {
   "name": "math",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Math Game",
   "main": "index.js",
   "repository": "git@gitlab.com:yellowberry/math",
@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.11.2",
+    "bowser": "^2.7.0",
     "bulma": "^0.7.5",
     "classnames": "^2.2.6",
     "core-js": "^3.2.1",
