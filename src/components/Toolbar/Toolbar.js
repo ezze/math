@@ -60,17 +60,14 @@ class Toolbar extends Component {
     generalStore.setModal(MODAL_ABOUT);
   }
 
-
-
   onBurgerClick() {
-    console.log(this.burgerRef.current);
     this.burgerRef.current.classList.toggle('is-active');
     this.menuRef.current.classList.toggle('is-active');
   }
 
   render() {
     const { challengeStore } = this.props;
-    const { challengeId, userName, playMode, loading } = challengeStore;
+    const { id, userName, playMode, loading } = challengeStore;
 
     const playModeButtonClassName = classNames({
       button: true,
@@ -132,7 +129,7 @@ class Toolbar extends Component {
                   <div className="field has-addons">
                     <div className="control toolbar-challenge">
                       <div className={challengeSelectClassName}>
-                        <select value={challengeId} disabled={loading} onChange={this.onChallengeChange}>
+                        <select value={id} disabled={loading} onChange={this.onChallengeChange}>
                           {challenges.filter(challenge => challenge.enabled !== false).map(challenge => (
                             <option key={challenge.id} value={challenge.id}>
                               {challenge.name}

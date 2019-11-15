@@ -41,7 +41,10 @@ export const challengeRecordsCount = 10;
 export const challengeDurations = [3, 5, 7, 10, 15];
 export const challengeFieldParams = {
   10: { width: 5, height: 2 },
+  12: { width: 4, height: 3 },
+  15: { width: 5, height: 3 },
   20: { width: 5, height: 4 },
+  25: { width: 5, height: 5 },
   30: { width: 6, height: 5 },
   40: { width: 8, height: 5 },
   50: { width: 10, height: 5 },
