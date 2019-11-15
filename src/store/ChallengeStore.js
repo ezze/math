@@ -111,7 +111,7 @@ class ChallengeStore extends BaseStore {
 
   @computed get maxOperands() {
     const maxOperands = [];
-    for (let i = 5; i <= this.maxValue; i += 5) {
+    for (let i = 1; i <= this.maxValue; i += 1) {
       maxOperands.push(i);
     }
     return maxOperands;
