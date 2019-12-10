@@ -20,8 +20,7 @@ export default (env, argv) => {
     },
     output: {
       path: path.resolve(__dirname, 'dist'),
-      filename: `[name].${mode === 'production' ? '[chunkhash:6].' : ''}js`,
-      publicPath: '/'
+      filename: `[name].${mode === 'production' ? '[chunkhash:6].' : ''}js`
     },
     devtool: mode === 'development' ? 'source-map' : false,
     devServer: {

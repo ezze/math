@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Math
+Exec=webapp-container --app-id="math.yellowberry" $@ index.html
+Icon=yellowberry.png
+Terminal=false
+Type=Application
+X-Ubuntu-Touch=true

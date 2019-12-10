@@ -1,0 +1,6 @@
+{
+  "arch": "armhf",
+  "template": "custom",
+  "build": "mkdir -p ./install && cp -R ../../../manifest.json ../../../math.apparmor ../../../math.desktop ../../../yellowberry.png ../../../dist/* ./install",
+  "kill": "webapp-container*"
+}
