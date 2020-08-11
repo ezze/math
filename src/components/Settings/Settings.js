@@ -147,7 +147,7 @@ class Settings extends Component {
                 </div>
               </div>
               <div className="field">
-                <label className="label">Арифметические опреации</label>
+                <label className="label">Арифметические операции</label>
                 <div className="control">
                   <div className="select is-fullwidth">
                     <select value={operatorsId} onChange={this.onOperatorsIdChange}>
