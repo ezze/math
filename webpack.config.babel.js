@@ -3,11 +3,14 @@ import path from 'path';
 import webpack from 'webpack';
 
 import HtmlPlugin from 'html-webpack-plugin';
-import htmlTemplate from 'html-webpack-template';
 import FaviconsPlugin from 'favicons-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+import TerserPlugin from 'terser-webpack-plugin';
+import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 
 import packageJson from './package.json';
+
+const { DefinePlugin } = webpack;
 
 const port = process.env.PORT || 6663;
 
@@ -31,15 +34,7 @@ export default (env, argv) => {
     },
     resolve: {
       symlinks: false,
-      modules: ['node_modules'],
-      extensions: ['.js']
-    },
-    resolveLoader: {
-      modules: ['node_modules'],
-      moduleExtensions: ['.js']
-    },
-    externals: {
-      cesium: 'Cesium'
+      extensions: ['.tsx', '.ts', '.js']
     },
     module: {
       rules: [{
@@ -82,6 +77,24 @@ export default (env, argv) => {
         }
       }]
     },
+    plugins: [
+      new DefinePlugin({
+        NODE_ENV: JSON.stringify(mode),
+        VERSION: JSON.stringify(packageJson.version)
+      }),
+      new HtmlPlugin({
+        title: 'Арифметика',
+        template: path.resolve(__dirname, 'src/index.html'),
+        minify: {
+          collapseWhitespace: mode === 'production'
+        }
+      }),
+      new FaviconsPlugin(path.resolve(__dirname, 'src/yellowberry.png')),
+      new MiniCssExtractPlugin({
+        filename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`,
+        chunkFilename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`
+      })
+    ],
     optimization: {
       splitChunks: {
         cacheGroups: {
@@ -93,46 +106,18 @@ export default (env, argv) => {
           }
         }
       },
-      runtimeChunk: true
+      runtimeChunk: true,
+      minimize: mode === 'production',
+      minimizer: [
+        new TerserPlugin({
+          extractComments: false
+        }),
+        new CssMinimizerPlugin()
+      ]
     },
     performance: {
       maxEntrypointSize: 1024 * 1024,
       maxAssetSize: 1024 * 1024
-    },
-    plugins: [
-      new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.DefinePlugin({
-        NODE_ENV: JSON.stringify(mode),
-        VERSION: JSON.stringify(packageJson.version)
-      }),
-      new HtmlPlugin({
-        filename: path.resolve(__dirname, 'dist/index.html'),
-        inject: false,
-        template: htmlTemplate,
-        title: 'Арифметика',
-        meta: [{
-          name: 'viewport',
-          content: 'width=device-width, initial-scale=1'
-        }, {
-          'http-equiv': 'Cache-Control',
-          content: 'no-cache, no-store, must-revalidate'
-        }, {
-          'http-equiv': 'Pragma',
-          content: 'no-cache'
-        }, {
-          'http-equiv': 'Expires',
-          content: '0'
-        }],
-        appMountId: 'app',
-        minify: {
-          collapseWhitespace: mode === 'production'
-        }
-      }),
-      new FaviconsPlugin(path.resolve(__dirname, 'src/yellowberry.png')),
-      new MiniCssExtractPlugin({
-        filename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`,
-        chunkFilename: `css/${mode === 'development' ? '[name].css' : '[name].[hash:6].css'}`
-      })
-    ]
+    }
   };
 };
