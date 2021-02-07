@@ -1,6 +1,6 @@
 {
   "name": "math",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Math Game",
   "main": "index.js",
   "repository": "git@gitlab.com:yellowberry/math",
