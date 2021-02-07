@@ -67,6 +67,59 @@
     "url": "challenges/aivazovsky/16.jpg"
   }]
 }, {
+  "id": "polenov",
+  "name": "Картины Поленова",
+  "items": [{
+    "id": "01",
+    "name": "Заросший пруд (окончен в 1879 году)",
+    "url": "challenges/polenov/01.jpg"
+  }, {
+    "id": "02",
+    "name": "Ранняя весна (1891 год)",
+    "url": "challenges/polenov/02.jpg"
+  }, {
+    "id": "03",
+    "name": "Золотая осень (1893 год)",
+    "url": "challenges/polenov/03.jpg"
+  }, {
+    "id": "04",
+    "name": "Старые ворота. Вёль (1874 год)",
+    "url": "challenges/polenov/04.jpg"
+  }, {
+    "id": "05",
+    "name": "На Генисаретском (Тивериадском) озере (1888 год)",
+    "url": "challenges/polenov/05.jpg"
+  }, {
+    "id": "06",
+    "name": "Бабушкин сад",
+    "url": "challenges/polenov/06.jpg"
+  }, {
+    "id": "07",
+    "name": "Осень на большой реке (Осень на Оке) (1910-1920-е годы)",
+    "url": "challenges/polenov/07.jpg"
+  }, {
+    "id": "08",
+    "name": "Баржа на реке Оке (1897 год)",
+    "url": "challenges/polenov/08.jpg"
+  }, {
+    "id": "09",
+    "name": "Возвестила радость плачущим (1890 год)",
+    "url": "challenges/polenov/09.jpg"
+  }, {
+    "id": "10",
+    "name": "На лодке. Абрамцево (1880 год)",
+    "url": "challenges/polenov/10.jpg"
+  }, {
+    "id": "11",
+    "name": "Старая мельница (1880 год)",
+    "url": "challenges/polenov/11.jpg"
+  }, {
+    "id": "12",
+    "name": "Река Клязьма. Жуковка (1886 год)",
+    "url": "challenges/polenov/12.jpg"
+    
+  }]
+}, {
   "id": "lada",
   "name": "Автомобили LADA",
   "items": [{
