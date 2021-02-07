@@ -1,12 +1,66 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import classNames from 'classnames';
+import ReactLoading from 'react-loading';
 
 @inject('challengeStore') @observer
 class PlayFieldImagery extends Component {
+  state = {
+    loading: false,
+    width: null,
+    height: null,
+    ratio: null,
+    containerWidth: 0,
+    containerHeight: 0
+  };
+
+  ref = React.createRef();
+
   constructor(props) {
     super(props);
+    this.onWindowResize = this.onWindowResize.bind(this);
     this.onAnswerClick = this.onAnswerClick.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onWindowResize);
+    this.updateContainerState();
+    this.preloadImage().catch(e => console.error(e));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onWindowResize);
+  }
+
+  updateContainerState() {
+    const { clientWidth: containerWidth, clientHeight: containerHeight } = this.ref.current;
+    this.setState({ containerWidth, containerHeight });
+  }
+
+  async preloadImage() {
+    const { challengeStore } = this.props;
+    const { currentItem } = challengeStore;
+    if (!currentItem) {
+      return;
+    }
+    const { url } = currentItem;
+    this.setState({ loading: true });
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      image.onload = () => resolve(image);
+      image.onerror = reject;
+      image.src = url;
+    }).then(image => {
+      const { width, height } = image;
+      const ratio = width / height;
+      this.setState({ loaded: true, width, height, ratio });
+    }).finally(() => {
+      this.setState({ loading: false });
+    });
+  }
+
+  onWindowResize() {
+    this.updateContainerState();
   }
 
   onAnswerClick(event) {
@@ -22,36 +76,39 @@ class PlayFieldImagery extends Component {
   }
 
   render() {
+    let content = '';
+
     const { challengeStore } = this.props;
+    const { currentItem } = challengeStore;
+    const { loading } = this.state;
 
-    const {
-      maxValue,
-      correctField,
-      userCorrect,
-      userAnswer,
-      correctAnswer,
-      currentItem,
-      currentItemCompleted
-    } = challengeStore;
-
-    if (!currentItem) {
-      return '';
+    if (loading) {
+      content = (
+        <ReactLoading class="play-field-imagery-loading" type="spin" />
+      );
     }
+    else if (currentItem) {
+      const { url } = currentItem;
+      const { ratio, containerHeight } = this.state;
 
-    const { url } = currentItem;
+      const {
+        maxValue,
+        correctField,
+        userCorrect,
+        userAnswer,
+        correctAnswer,
+        currentItemCompleted
+      } = challengeStore;
 
-    const className = classNames({
-      'play-field-imagery': true
-    });
+      const mosaicClassName = classNames({
+        'play-field-imagery-mosaic': true,
+        [`play-field-imagery-mosaic-max-value-${maxValue}`]: true
+      });
 
-    const mosaicClassName = classNames({
-      'play-field-imagery-mosaic': true,
-      [`play-field-imagery-mosaic-max-value-${maxValue}`]: true
-    });
-
-    return (
-      <div className={className}>
-        <div className="play-field-imagery-inner">
+      content = (
+        <div className="play-field-imagery-container" style={{
+          width: `${containerHeight * ratio}px`
+        }}>
           <img src={url} />
           <div className={mosaicClassName}>
             {correctField.map((row, i) => {
@@ -79,6 +136,17 @@ class PlayFieldImagery extends Component {
             })}
           </div>
         </div>
+      );
+    }
+    else {
+      content = (
+        <div className="play-field-imagery-error">Что-то пошло не так!</div>
+      );
+    }
+
+    return (
+      <div className="play-field-imagery" ref={this.ref}>
+        {content}
       </div>
     );
   }

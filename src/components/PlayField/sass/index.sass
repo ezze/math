@@ -117,15 +117,25 @@ $play-field-media-screen-min-height: 450px !default
   bottom: $play-field-imagery-bottom
   left: 0
   right: 0
+  display: flex
+  justify-content: space-around
   text-align: center
 
   @media screen and (max-width: $play-field-media-screen-min-width), screen and (max-height: $play-field-media-screen-min-height)
     display: none
 
 
-.play-field-imagery-inner
+.play-field-imagery-loading
+  fill: $play-field-question-answer-color !important
+
+
+.play-field-imagery-error
+  color: $danger-dark
+
+
+.play-field-imagery-container
   position: relative
-  display: inline-block
+  width: 0
   height: 100%
 
   > img
