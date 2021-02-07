@@ -10,8 +10,8 @@ class PlayFieldImagery extends Component {
     width: null,
     height: null,
     ratio: null,
-    containerWidth: 0,
-    containerHeight: 0
+    containerWidth: null,
+    containerHeight: null
   };
 
   ref = React.createRef();
@@ -80,16 +80,16 @@ class PlayFieldImagery extends Component {
 
     const { challengeStore } = this.props;
     const { currentItem } = challengeStore;
-    const { loading } = this.state;
+    const { loading, ratio } = this.state;
 
     if (loading) {
       content = (
-        <ReactLoading class="play-field-imagery-loading" type="spin" />
+        <ReactLoading className="play-field-imagery-loading" type="spin" />
       );
     }
-    else if (currentItem) {
+    else if (currentItem && typeof ratio === 'number') {
       const { url } = currentItem;
-      const { ratio, containerHeight } = this.state;
+      const { containerHeight } = this.state;
 
       const {
         maxValue,
@@ -100,42 +100,58 @@ class PlayFieldImagery extends Component {
         currentItemCompleted
       } = challengeStore;
 
+      const zeroClassName = classNames({
+        'play-field-imagery-zero': true,
+        'play-field-imagery-zero-correct': !currentItemCompleted && userAnswer === 0 && userCorrect,
+        'play-field-imagery-zero-wrong': !currentItemCompleted && userAnswer === 0 && !userCorrect
+      });
+
       const mosaicClassName = classNames({
         'play-field-imagery-mosaic': true,
         [`play-field-imagery-mosaic-max-value-${maxValue}`]: true
       });
 
       content = (
-        <div className="play-field-imagery-container" style={{
-          width: `${containerHeight * ratio}px`
-        }}>
-          <img src={url} />
-          <div className={mosaicClassName}>
-            {correctField.map((row, i) => {
-              return (
-                <div key={i} className="play-field-imagery-mosaic-row">
-                  {row.map((visible, j) => {
-                    const answer = i * row.length + j + 1;
-                    const className = classNames({
-                      'play-field-imagery-mosaic-item': true,
-                      'play-field-imagery-mosaic-item-visible': visible,
-                      'play-field-imagery-mosaic-item-correct': (
-                        !currentItemCompleted && userAnswer && answer === correctAnswer
-                      ),
-                      'play-field-imagery-mosaic-item-wrong': (
-                        !currentItemCompleted && answer === userAnswer && !userCorrect)
-                    });
-                    return (
-                      <div key={j} className={className} data-answer={answer} onClick={this.onAnswerClick}>
-                        <div className="play-field-imagery-mosaic-answer">{answer}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })}
+        <>
+          <div className="play-field-imagery-gap"></div>
+          <div className={zeroClassName} data-answer="0" onClick={this.onAnswerClick}>
+            <div>0</div>
           </div>
-        </div>
+          <div className="play-field-imagery-container" style={{
+            width: `${containerHeight * ratio}px`
+          }}>
+            <img src={url} />
+            <div className={mosaicClassName}>
+              {correctField.map((row, i) => {
+                return (
+                  <div key={i} className="play-field-imagery-mosaic-row">
+                    {row.map((visible, j) => {
+                      const answer = i * row.length + j + 1;
+                      const className = classNames({
+                        'play-field-imagery-mosaic-item': true,
+                        'play-field-imagery-mosaic-item-visible': visible,
+                        'play-field-imagery-mosaic-item-correct': (
+                          !currentItemCompleted && userAnswer && answer === correctAnswer
+                        ),
+                        'play-field-imagery-mosaic-item-wrong': (
+                          !currentItemCompleted && answer === userAnswer && !userCorrect)
+                      });
+                      return (
+                        <div key={j} className={className} data-answer={answer} onClick={this.onAnswerClick}>
+                          <div className="play-field-imagery-mosaic-answer">{answer}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className={zeroClassName} data-answer="0" onClick={this.onAnswerClick}>
+            <div>0</div>
+          </div>
+          <div className="play-field-imagery-gap"></div>
+        </>
       );
     }
     else {

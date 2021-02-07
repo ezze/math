@@ -20,6 +20,19 @@ $play-field-imagery-top: $play-field-question-top + $play-field-question-font-si
 $play-field-imagery-bottom: 80px !default
 $play-field-imagery-border-radius: 6px !default
 
+$play-field-imagery-zero-gap: 6px !default
+$play-field-imagery-zero-color: #d01a5f !default
+$play-field-imagery-zero-border-color: $play-field-imagery-zero-color !default
+$play-field-imagery-zero-hover-color: $white !default
+$play-field-imagery-zero-hover-bg-color: #f34d8c !default
+$play-field-imagery-zero-correct-color: $white !default
+$play-field-imagery-zero-correct-bg-color: #a1d516 !default
+$play-field-imagery-zero-wrong-color: $white !default
+$play-field-imagery-zero-wrong-bg-color: #ef1818 !default
+
+$play-field-imagery-zero-font-size: 40px !default
+$play-field-imagery-zero-size: 40px !default
+
 $play-field-imagery-mosaic-answer-font-size: 18px !default
 $play-field-imagery-mosaic-answer-max-value-10-font-size: 40px !default
 $play-field-imagery-mosaic-answer-max-value-20-font-size: 32px !default
@@ -118,7 +131,6 @@ $play-field-media-screen-min-height: 450px !default
   left: 0
   right: 0
   display: flex
-  justify-content: space-around
   text-align: center
 
   @media screen and (max-width: $play-field-media-screen-min-width), screen and (max-height: $play-field-media-screen-min-height)
@@ -127,6 +139,7 @@ $play-field-media-screen-min-height: 450px !default
 
 .play-field-imagery-loading
   fill: $play-field-question-answer-color !important
+  margin: 0 auto
 
 
 .play-field-imagery-error
@@ -142,6 +155,48 @@ $play-field-media-screen-min-height: 450px !default
     height: 100%
     border: 1px solid $white
     border-radius: $play-field-imagery-border-radius
+
+
+.play-field-imagery-gap
+  flex: 1
+
+
+.play-field-imagery-zero
+  display: flex
+  flex-direction: column
+  justify-content: space-around
+  align-items: center
+  margin-left: $play-field-imagery-zero-gap + 2px
+  margin-right: 0
+
+  .play-field-imagery-gap + &
+    margin-left: 0
+    margin-right: $play-field-imagery-zero-gap
+
+  > div
+    border: 1px solid $play-field-imagery-zero-border-color
+    border-radius: $play-field-imagery-border-radius
+    color: $play-field-imagery-zero-color
+    font-size: $play-field-imagery-zero-font-size
+    padding: $play-field-imagery-zero-size
+    box-shadow: 1px 1px 2px $black
+
+    &:hover
+      cursor: pointer
+      color: $play-field-imagery-zero-hover-color
+      background-color: $play-field-imagery-zero-hover-bg-color
+
+  &.play-field-imagery-zero-correct
+    > div
+      color: $play-field-imagery-zero-correct-color
+      background-color: $play-field-imagery-zero-correct-bg-color
+      border: 1px solid darken($play-field-imagery-zero-correct-bg-color, 20%)
+
+  &.play-field-imagery-zero-wrong
+    > div
+      color: $play-field-imagery-zero-wrong-color
+      background-color: $play-field-imagery-zero-wrong-bg-color
+      border: 1px solid darken($play-field-imagery-zero-wrong-bg-color, 20%)
 
 
 .play-field-imagery-mosaic
