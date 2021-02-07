@@ -11,8 +11,8 @@
     "start": "node server.js",
     "build": "yarn copy:challenges && webpack --mode=production --progress",
     "build:dev": "yarn copy:cesium && yarn copy:challenges && webpack --mode=development --progress",
-    "wds": "webpack-dev-server --mode=production --progress",
-    "wds:dev": "webpack-dev-server --mode=development --progress",
+    "wds": "webpack serve --mode=production --progress",
+    "wds:dev": "webpack serve --mode=development --progress",
     "copy:challenges": "rm -Rf dist/challenges && copyfiles -u 1 \"src/challenges/**/*\" dist",
     "lint": "eslint src"
   },
@@ -47,6 +47,7 @@
     "babel-preset-mobx": "^2.0.0",
     "copyfiles": "^2.4.1",
     "css-loader": "^5.0.1",
+    "css-minimizer-webpack-plugin": "^1.2.0",
     "eslint": "^7.19.0",
     "eslint-config-ezze-react": "^0.9.0",
     "eslint-plugin-react": "^7.22.0",

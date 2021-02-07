@@ -17,6 +17,5 @@ document.addEventListener('DOMContentLoaded', async() => {
       <App />
     </Provider>
   );
-
-  render(content, document.getElementById('app'));
+  render(content, document.querySelector('.app-container'));
 });
