@@ -120,6 +120,50 @@
     
   }]
 }, {
+  "id": "formula1-2020",
+  "name": "Формула 1 (сезон 2020)",
+  "items": [{
+    "id": "daniel-ricciardo-renault",
+    "name": "Даниэль Риккьярдо (Renault)",
+    "url": "challenges/formula1-2020/daniel-ricciardo-renault.jpg"
+  }, {
+    "id": "george-russell-williams",
+    "name": "Джордж Расселл (Williams)",
+    "url": "challenges/formula1-2020/george-russell-williams.jpg"
+  }, {
+    "id": "kimi-raikkonen-alpha-romeo",
+    "name": "Кими Райкконен (Alpha Romeo)",
+    "url": "challenges/formula1-2020/kimi-raikkonen-alpha-romeo.jpg"
+  }, {
+    "id": "lance-stroll-racing-point",
+    "name": "Лэнс Стролл (Racing Point)",
+    "url": "challenges/formula1-2020/lance-stroll-racing-point.jpg"
+  }, {
+    "id": "lando-norris-mclaren",
+    "name": "Ландо Норрис (McLaren)",
+    "url": "challenges/formula1-2020/lando-norris-mclaren.jpg"
+  }, {
+    "id": "lewis-hamilton-mercedes",
+    "name": "Льюис Хэмильтон (Mercedes)",
+    "url": "challenges/formula1-2020/lewis-hamilton-mercedes.jpg"
+  }, {
+    "id": "max-verstappen-redbull",
+    "name": "Макс Ферстаппен (Redbull)",
+    "url": "challenges/formula1-2020/max-verstappen-redbull.jpg"
+  }, {
+    "id": "pierre-gasly-alpha-tauri",
+    "name": "Пьер Гасли (Alpha Tauri)",
+    "url": "challenges/formula1-2020/pierre-gasly-alpha-tauri.jpg"
+  }, {
+    "id": "romain-grosjean-haas",
+    "name": "Роман Гросжан (Haas)",
+    "url": "challenges/formula1-2020/romain-grosjean-haas.jpg"
+  }, {
+    "id": "sebastian-vettel-ferrari",
+    "name": "Себастьян Феттель (Ferrari)",
+    "url": "challenges/formula1-2020/sebastian-vettel-ferrari.jpg"
+  }]
+}, {
   "id": "lada",
   "name": "Автомобили LADA",
   "items": [{
