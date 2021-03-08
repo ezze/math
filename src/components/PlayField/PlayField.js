@@ -120,6 +120,7 @@ class PlayField extends Component {
             <span>{correction}</span>
             <span>{new Array(spacesCount + 1).join(' ')}</span>
           </div>
+          {this.renderQuestionVisualization()}
         </div>
       );
     }
@@ -140,6 +141,35 @@ class PlayField extends Component {
         <PlayFieldImagery />
       </div>
     ) : '';
+  }
+
+  renderQuestionVisualization() {
+    const { challengeStore } = this.props;
+    const { maxValue, operand1, operand2, operator } = challengeStore;
+    if (
+      typeof maxValue !== 'number' || maxValue > 20 ||
+      typeof operand1 !== 'number' || typeof operand2 !== 'number' || !operator
+    ) {
+      return '';
+    }
+
+    const items = [];
+    const type = operator === '+' ? 'sum' : 'sub';
+    const count = type === 'sum' ? operand1 + operand2 : operand1;
+    for (let i = 0; i < count; i++) {
+      const position = type === 'sum' ? (i < operand1 ? 1 : 2) : (i < operand1 - operand2 ? 1 : 2);
+      const className = classNames(
+        'play-field-question-visualization-item',
+        `play-field-question-visualization-item-${type}-${position}`
+      );
+      items.push(<div key={i} className={className}></div>);
+    }
+
+    return (
+      <div className="play-field-question-visualization">
+        {items}
+      </div>
+    );
   }
 }
 
