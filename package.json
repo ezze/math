@@ -1,9 +1,9 @@
 {
   "name": "math",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Math Game",
   "main": "index.js",
-  "repository": "git@gitlab.com:yellowberry/math",
+  "repository": "git@github.com:ezze/math",
   "author": "Dmitriy Pushkov <ezze@ezze.org>",
   "license": "MIT",
   "private": true,
