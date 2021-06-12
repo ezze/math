@@ -164,6 +164,90 @@
     "url": "challenges/formula1-2020/sebastian-vettel-ferrari.jpg"
   }]
 }, {
+  "id": "formula1-2021",
+  "name": "Формула 1 (сезон 2021)",
+  "items": [{
+    "id": "03",
+    "name": "Даниэль Риккьярдо (McLaren)",
+    "url": "challenges/formula1-2021/03.jpg"
+  }, {
+    "id": "04",
+    "name": "Ландо Норрис (McLaren)",
+    "url": "challenges/formula1-2021/04.jpg"
+  }, {
+    "id": "05",
+    "name": "Себастьян Феттель (Aston Martin)",
+    "url": "challenges/formula1-2021/05.jpg"
+  }, {
+    "id": "06",
+    "name": "Николас Латифи (Williams)",
+    "url": "challenges/formula1-2021/06.jpg"
+  }, {
+    "id": "07",
+    "name": "Кими Райкконен (Alpha Romeo)",
+    "url": "challenges/formula1-2021/07.jpg"
+  }, {
+    "id": "09",
+    "name": "Никита Мазепин (Haas)",
+    "url": "challenges/formula1-2021/09.jpg"
+  }, {
+    "id": "10",
+    "name": "Пьер Гасли (Alpha Tauri)",
+    "url": "challenges/formula1-2021/10.jpg"
+  }, {
+    "id": "11",
+    "name": "Серхио Перез (Redbull)",
+    "url": "challenges/formula1-2021/11.jpg"
+  }, {
+    "id": "14",
+    "name": "Фернандо Алонсо (Alpine)",
+    "url": "challenges/formula1-2021/14.jpg"
+  }, {
+    "id": "16",
+    "name": "Шарль Леклер (Ferrari)",
+    "url": "challenges/formula1-2021/16.jpg"
+  }, {
+    "id": "18",
+    "name": "Лэнс Стролл (Aston Martin)",
+    "url": "challenges/formula1-2021/18.jpg"
+  }, {
+    "id": "22",
+    "name": "Юки Цунода (Alpha Tauri)",
+    "url": "challenges/formula1-2021/22.jpg"
+  }, {
+    "id": "31",
+    "name": "Эстебан Окон (Alpine)",
+    "url": "challenges/formula1-2021/31.jpg"
+  }, {
+    "id": "33",
+    "name": "Макс Ферстаппен (Redbull)",
+    "url": "challenges/formula1-2021/33.jpg"
+  }, {
+    "id": "44",
+    "name": "Льюис Хэмильтон (Mercedes)",
+    "url": "challenges/formula1-2021/44.jpg"
+  }, {
+    "id": "47",
+    "name": "Мик Шумахер (Haas)",
+    "url": "challenges/formula1-2021/47.jpg"
+  }, {
+    "id": "55",
+    "name": "Карлос Сайнц (Ferrari)",
+    "url": "challenges/formula1-2021/55.jpg"
+  }, {
+    "id": "63",
+    "name": "Джордж Расселл (Williams)",
+    "url": "challenges/formula1-2021/63.jpg"
+  }, {
+    "id": "77",
+    "name": "Вальттери Боттас (Mercedes)",
+    "url": "challenges/formula1-2021/77.jpg"
+  }, {
+    "id": "99",
+    "name": "Антонио Джовинацци (Alpha Romeo)",
+    "url": "challenges/formula1-2021/99.jpg"
+  }]
+}, {
   "id": "lada",
   "name": "Автомобили LADA",
   "items": [{
