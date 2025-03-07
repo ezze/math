@@ -119,7 +119,7 @@ class Toolbar extends Component {
                         onClick={this.onEditUserNameClick}
                       >
                         <span className="icon">
-                          <i className="fas fa-edit" />
+                          <i className="fa-solid fa-edit" />
                         </span>
                       </button>
                     </div>
@@ -145,7 +145,7 @@ class Toolbar extends Component {
                         title={playMode ? 'Остановить' : 'Начать'}
                       >
                         <span className="icon">
-                          <i className={`fas fa-${playMode ? 'stop' : 'play'}`} />
+                          <i className={`fa-solid fa-${playMode ? 'stop' : 'play'}`} />
                         </span>
                       </button>
                     </div>

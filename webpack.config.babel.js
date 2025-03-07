@@ -22,16 +22,13 @@ export default (env, argv) => {
       [packageJson.name]: ['core-js/stable', 'regenerator-runtime/runtime', './index.js']
     },
     output: {
-      path: path.resolve(__dirname, 'dist'),
-      filename: `[name].${mode === 'production' ? '[chunkhash:6].' : ''}js`,
-      publicPath: '/'
+      path: path.resolve(__dirname, 'dist')
     },
     devtool: mode === 'development' ? 'source-map' : false,
     devServer: {
       static: {
         directory: path.resolve(__dirname, 'dist')
       },
-      compress: true,
       port,
       historyApiFallback: true
     },
@@ -55,28 +52,21 @@ export default (env, argv) => {
         ]
       }, {
         test: /\.(jpg|png)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'img/[name].[hash:6].[ext]'
-          }
+        type: 'asset/resource',
+        generator: {
+          filename: 'img/[name].[hash:6][ext]'
         }
       }, {
         test: /\.(eot|otf|svg|ttf|woff2?)/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'fonts/[1].[hash:6].[ext]',
-            regExp: /node_modules\/@fortawesome\/fontawesome-free\/webfonts\/([^.]+)\.[^.]+/
-          }
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[name].[hash:6][ext]'
         }
       }, {
         test: /\.mp3$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: 'sound/[name].[hash:6].[ext]'
-          }
+        type: 'asset/resource',
+        generator: {
+          filename: 'sound/[name].[hash:6].[ext]'
         }
       }]
     },
