@@ -1,6 +1,6 @@
 {
   "name": "math",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Math Game",
   "main": "index.js",
   "repository": "git@github.com:ezze/math",
