@@ -160,19 +160,19 @@ class Toolbar extends Component {
               <div className="buttons">
                 <button className="button is-warning is-small" onClick={this.onAboutClick}>
                   <span className="icon">
-                    <i className="fas fa-question" />
+                    <i className="fa-solid fa-question" />
                   </span>
                   <span>О приложении</span>
                 </button>
                 <button className="button is-warning is-small" onClick={this.onHallOfFameClick}>
                   <span className="icon">
-                    <i className="fas fa-list" />
+                    <i className="fa-solid fa-list" />
                   </span>
                   <span>Рекорды</span>
                 </button>
                 <button className="button is-warning is-white is-small" onClick={this.onSettingsClick}>
                   <span className="icon">
-                    <i className="fas fa-wrench" />
+                    <i className="fa-solid fa-gear" />
                   </span>
                   <span>Настройки</span>
                 </button>

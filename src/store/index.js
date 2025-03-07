@@ -1,4 +1,4 @@
-import { reaction, when } from 'mobx';
+import { when } from 'mobx';
 
 import GeneralStore from './GeneralStore';
 import ChallengeStore from './ChallengeStore';
@@ -8,25 +8,17 @@ export const stores = {};
 
 export async function createStores() {
   const generalStore = stores.generalStore = new GeneralStore();
+  await generalStore.init();
+
   const recordStore = stores.recordStore = new RecordStore();
-  
-  await when(() => generalStore.storeInitialized);
+  await recordStore.init();
 
-  stores.challengeStore = new ChallengeStore({ generalStore, recordStore });
+  await when(() => generalStore.storeInitialized && recordStore.storeInitialized);
 
-  const storeNames = Object.keys(stores);
+  const challengeStore = stores.challengeStore = new ChallengeStore({ generalStore, recordStore });
+  await challengeStore.init();
 
-  return new Promise(resolve => {
-    const disposeStoreInit = reaction(() => storeNames.map(storeName => {
-      return stores[storeName].storeInitialized;
-    }), storeInits => {
-      for (let i = 0; i < storeInits.length; i++) {
-        if (!storeInits[i]) {
-          return;
-        }
-      }
-      disposeStoreInit();
-      resolve(stores);
-    });
-  });
+  await when(() => challengeStore.storeInitialized);
+
+  return Promise.resolve(stores);
 }

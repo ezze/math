@@ -1,4 +1,4 @@
-import { observable, computed, action, reaction, makeObservable } from 'mobx';
+import { observable, computed, action, reaction, makeObservable, runInAction } from 'mobx';
 import { createTransformer } from 'mobx-utils';
 import moment from 'moment';
 
@@ -287,7 +287,9 @@ class ChallengeStore extends BaseStore {
       }
 
       if (this.playMode && !gameOver) {
-        this.playMode = false;
+        runInAction(() => {
+          this.playMode = false;
+        });
       }
     });
 
@@ -305,6 +307,7 @@ class ChallengeStore extends BaseStore {
     super.destroy();
   }
 
+  @action
   reset() {
     this.gameOver = false;
     this.itemId = null;
@@ -332,8 +335,10 @@ class ChallengeStore extends BaseStore {
     }
 
     try {
-      this.loading = true;
-      this.loadingError = false;
+      runInAction(() => {
+        this.loading = true;
+        this.loadingError = false;
+      });
       await Promise.all(this.items.map(item => {
         const { url } = item;
         return new Promise((resolve, reject) => {
@@ -344,13 +349,19 @@ class ChallengeStore extends BaseStore {
         });
       }));
       await delay();
-      this.loadingError = false;
+      runInAction(() => {
+        this.loadingError = false;
+      });
     }
     catch (e) {
-      this.loadingError = true;
+      runInAction(() => {
+        this.loadingError = true;
+      });
     }
     finally {
-      this.loading = false;
+      runInAction(() => {
+        this.loading = false;
+      });
     }
   }
 
@@ -360,19 +371,26 @@ class ChallengeStore extends BaseStore {
     }
 
     if (!this.challenge) {
-      this.playMode = false;
+      runInAction(() => {
+        this.playMode = false;
+      });
       return;
     }
 
     this.reset();
 
-    this.startTime = moment().unix();
+    runInAction(() => {
+      this.startTime = moment().unix();
+    });
+
     this.elapsedInterval = setInterval(() => {
-      this.elapsedTime = moment().unix() - this.startTime;
-      if (this.elapsedTime > this.duration * 60) {
-        clearInterval(this.elapsedInterval);
-        this.gameOver = true;
-      }
+      runInAction(() => {
+        this.elapsedTime = moment().unix() - this.startTime;
+        if (this.elapsedTime > this.duration * 60) {
+          clearInterval(this.elapsedInterval);
+          this.gameOver = true;
+        }
+      });
     }, 100);
 
     this.next();
@@ -382,7 +400,7 @@ class ChallengeStore extends BaseStore {
     this.reset();
   }
 
-  next() {
+  @action next() {
     this.userAnswer = null;
 
     if (this.nextTimeout) {
