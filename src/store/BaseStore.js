@@ -4,7 +4,7 @@ import {
   autorun,
   reaction,
   set,
-  toJS
+  toJS, runInAction, makeObservable
 } from 'mobx';
 
 const regExpIso8601 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/;
@@ -13,6 +13,8 @@ class BaseStore {
   @observable storeInitialized = false;
 
   constructor(options = {}) {
+    makeObservable(this);
+
     const {
       key = '',
       exclude = [],
@@ -49,7 +51,9 @@ class BaseStore {
             }
           }
           else {
-            this.storeInitialized = true;
+            runInAction(() => {
+              this.storeInitialized = true;
+            });
             console.log(`Store${this.key ? ` "${this.key}"` : ''} is initialized.`);
             console.log(data);
             await this.init(options);

@@ -40,6 +40,9 @@ export const challengeOperatorsIds = Object.keys(challengeOperators);
 export const challengeRecordsCount = 10;
 export const challengeDurations = [3, 5, 7, 10, 15];
 export const challengeFieldParams = {
+  4: { width: 2, height: 2 },
+  6: { width: 3, height: 2 },
+  8: { width: 4, height: 2 },
   10: { width: 5, height: 2 },
   12: { width: 4, height: 3 },
   15: { width: 5, height: 3 },

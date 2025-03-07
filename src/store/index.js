@@ -1,4 +1,4 @@
-import { reaction } from 'mobx';
+import { reaction, when } from 'mobx';
 
 import GeneralStore from './GeneralStore';
 import ChallengeStore from './ChallengeStore';
@@ -9,13 +9,8 @@ export const stores = {};
 export async function createStores() {
   const generalStore = stores.generalStore = new GeneralStore();
   const recordStore = stores.recordStore = new RecordStore();
-
-  await new Promise(resolve => {
-    const disposeGeneralInit = reaction(() => generalStore.storeInitialized, () => {
-      disposeGeneralInit();
-      resolve();
-    });
-  });
+  
+  await when(() => generalStore.storeInitialized);
 
   stores.challengeStore = new ChallengeStore({ generalStore, recordStore });
 

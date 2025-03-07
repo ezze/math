@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 
 import BaseStore from './BaseStore';
 
@@ -11,10 +11,11 @@ class GeneralStore extends BaseStore {
 
   constructor(options = {}) {
     super({ key: 'general', ...options });
+    makeObservable(this);
   }
 
   async init() {
-    super.init();
+    await super.init();
     if (modalErrors.includes(this.modal)) {
       this.modal = null;
     }

@@ -28,7 +28,10 @@ export default (env, argv) => {
     },
     devtool: mode === 'development' ? 'source-map' : false,
     devServer: {
-      contentBase: path.resolve(__dirname, 'dist'),
+      static: {
+        directory: path.resolve(__dirname, 'dist')
+      },
+      compress: true,
       port,
       historyApiFallback: true
     },

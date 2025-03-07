@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 
 import BaseStore from './BaseStore';
 
@@ -9,6 +9,7 @@ class RecordStore extends BaseStore {
 
   constructor(options = {}) {
     super({ key: 'record', ...options });
+    makeObservable(this);
   }
 
   add(maxValue, duration, name, score) {

@@ -1,4 +1,4 @@
-import { observable, computed, action, reaction } from 'mobx';
+import { observable, computed, action, reaction, makeObservable } from 'mobx';
 import { createTransformer } from 'mobx-utils';
 import moment from 'moment';
 
@@ -220,6 +220,8 @@ class ChallengeStore extends BaseStore {
       ],
       ...options
     });
+
+    makeObservable(this);
 
     const { generalStore, recordStore } = options;
     this.generalStore = generalStore;
