@@ -24,7 +24,7 @@ class About extends Component {
     const { generalStore } = this.props;
     const { modal } = generalStore;
     const title = 'О приложении';
-    const text = 'Игра разработана под впечатлением от Классических Бесед и посвящена изучению арифметики.';
+    const text = 'Игра разработана для детей с целью увлекательного изучения арифметики.';
     return (
       <ModalNotification title={title} text={text} visible={modal === MODAL_ABOUT} close={this.close}>
         <table className="about-table" align="center">

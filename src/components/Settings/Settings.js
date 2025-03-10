@@ -20,6 +20,7 @@ class Settings extends Component {
     this.onMaxValueChange = this.onMaxValueChange.bind(this);
     this.onMaxOperandChange = this.onMaxOperandChange.bind(this);
     this.onOperatorsIdChange = this.onOperatorsIdChange.bind(this);
+    this.onQuestionVisualizationChange = this.onQuestionVisualizationChange.bind(this);
     this.onSoundEnabledChange = this.onSoundEnabledChange.bind(this);
     this.onCloseClick = this.onCloseClick.bind(this);
   }
@@ -49,6 +50,11 @@ class Settings extends Component {
     challengeStore.setOperators(event.target.value);
   }
 
+  onQuestionVisualizationChange(event) {
+    const { generalStore } = this.props;
+    generalStore.setQuestionVisualization(event.target.checked);
+  }
+
   onSoundEnabledChange(event) {
     const { generalStore } = this.props;
     generalStore.setSoundEnabled(event.target.checked);
@@ -61,7 +67,7 @@ class Settings extends Component {
 
   render() {
     const { generalStore, challengeStore } = this.props;
-    const { soundEnabled, developerMode, modal } = generalStore;
+    const { questionVisualization, soundEnabled, developerMode, modal } = generalStore;
     const {
       id: challengeId,
       duration,
@@ -82,6 +88,8 @@ class Settings extends Component {
       'is-fullwidth': true,
       'is-loading': loading
     });
+
+    console.log(questionVisualization);
 
     return (
       <div className={className}>
@@ -163,6 +171,16 @@ class Settings extends Component {
                     </select>
                   </div>
                 </div>
+              </div>
+              <div className="field">
+                <label className="checkbox">
+                  <input
+                    type="checkbox"
+                    checked={questionVisualization}
+                    onChange={this.onQuestionVisualizationChange}
+                  />
+                  <span>Отображать подсказки</span>
+                </label>
               </div>
               <div className="field">
                 <label className="checkbox">

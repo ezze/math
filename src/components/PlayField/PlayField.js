@@ -7,7 +7,7 @@ import PlayFieldImagery from './PlayFieldImagery';
 
 import './sass/index.sass';
 
-@inject('challengeStore') @observer
+@inject('generalStore', 'challengeStore') @observer
 class PlayField extends Component {
   state = {
     answer: ''
@@ -22,6 +22,7 @@ class PlayField extends Component {
     document.addEventListener('keydown', this.onKeyDown);
 
     const { challengeStore } = this.props;
+
     this.disposeUserAnswer = reaction(() => challengeStore.userAnswer, userAnswer => {
       if (typeof userAnswer === 'number') {
         this.setState({ answer: '' });
@@ -79,7 +80,7 @@ class PlayField extends Component {
   }
 
   render() {
-    const { challengeStore } = this.props;
+    const { generalStore, challengeStore } = this.props;
     const { playMode } = challengeStore;
     if (!playMode) {
       return '';
@@ -89,6 +90,8 @@ class PlayField extends Component {
 
     let content;
     if (!currentItemCompleted) {
+      const { questionVisualization } = generalStore;
+
       const {
         maxValue,
         operand1,
@@ -120,7 +123,7 @@ class PlayField extends Component {
             <span>{correction}</span>
             <span>{new Array(spacesCount + 1).join(' ')}</span>
           </div>
-          {this.renderQuestionVisualization()}
+          {questionVisualization && this.renderQuestionVisualization()}
         </div>
       );
     }

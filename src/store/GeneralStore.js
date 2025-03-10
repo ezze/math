@@ -5,6 +5,7 @@ import BaseStore from './BaseStore';
 import { modalErrors } from '../constants';
 
 class GeneralStore extends BaseStore {
+  @observable questionVisualization = true;
   @observable soundEnabled = true;
   @observable developerMode = false;
   @observable modal = null;
@@ -19,6 +20,10 @@ class GeneralStore extends BaseStore {
     if (modalErrors.includes(this.modal)) {
       this.modal = null;
     }
+  }
+
+  @action setQuestionVisualization(questionVisualization) {
+    this.questionVisualization = questionVisualization;
   }
 
   @action setSoundEnabled(soundEnabled) {
