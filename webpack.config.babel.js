@@ -22,7 +22,8 @@ export default (env, argv) => {
       [packageJson.name]: ['core-js/stable', 'regenerator-runtime/runtime', './index.js']
     },
     output: {
-      path: path.resolve(__dirname, 'dist')
+      path: path.resolve(__dirname, 'dist'),
+      filename: `[name].${mode === 'production' ? '[chunkhash:6].' : ''}js`
     },
     devtool: mode === 'development' ? 'source-map' : false,
     devServer: {
